@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 
 public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
 
-    private final static int DEFAULT_WIDTH_SIZE = 3000;
+    private final static int DEFAULT_WIDTH_SIZE = 2560;
 
     @Getter
     private final ToWorkBook workBook;

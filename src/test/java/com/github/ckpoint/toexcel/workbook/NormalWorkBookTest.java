@@ -16,7 +16,7 @@ public class NormalWorkBookTest {
 
         sheet.createTitleCell(2, "이름", "나이");
         sheet.next();
-        IntStream.range(0, 50000).forEach(i ->{
+        IntStream.range(0, 5000).forEach(i ->{
             sheet.createCell("희섭" + i , 1 + i);
             sheet.next();
         });

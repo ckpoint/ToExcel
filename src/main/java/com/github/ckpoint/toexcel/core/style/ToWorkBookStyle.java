@@ -1,13 +1,10 @@
-package com.github.ckpoint.toexcel.core;
+package com.github.ckpoint.toexcel.core.style;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.*;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -22,6 +19,11 @@ public class ToWorkBookStyle {
     private BorderStyle borderBottom = BorderStyle.THIN;
     private BorderStyle borderLeft = BorderStyle.THIN;
     private BorderStyle borderRight = BorderStyle.THIN;
+
+    private Short fillPattern;
+    private IndexedColors fillForegroundColor;
+
+    private ToWorkBookFont font;
 
     private short format = 0x0;
 
@@ -53,6 +55,10 @@ public class ToWorkBookStyle {
     }
 
     public ToWorkBookStyle updateTitleType() {
+        this.fillForegroundColor = IndexedColors.GREY_25_PERCENT;
+        this.fillPattern = CellStyle.SOLID_FOREGROUND;
+
+        this.font = ToWorkBookFont.builder().boldWeight(Font.BOLDWEIGHT_BOLD).fontHeightInPoints((short) 8).build();
         return this;
     }
 
@@ -74,6 +80,17 @@ public class ToWorkBookStyle {
         cellStyle.setBorderLeft((short) this.borderLeft.ordinal());
         cellStyle.setBorderRight((short) this.borderRight.ordinal());
         cellStyle.setDataFormat(this.format);
+
+        if (this.fillForegroundColor != null) {
+            cellStyle.setFillForegroundColor(this.fillForegroundColor.getIndex());
+        }
+        if (this.fillPattern != null) {
+            cellStyle.setFillPattern(this.fillPattern);
+        }
+        if(this.font != null){
+            cellStyle.setFont(this.font.convertFont(wb));
+        }
+
         return cellStyle;
     }
 
