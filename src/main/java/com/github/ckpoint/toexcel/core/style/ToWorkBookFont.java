@@ -5,6 +5,9 @@ import lombok.EqualsAndHashCode;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Workbook;
 
+/**
+ * The type To work book font.
+ */
 @Builder
 @EqualsAndHashCode
 public class ToWorkBookFont {
@@ -20,6 +23,12 @@ public class ToWorkBookFont {
     private Integer charSet;
     private Short boldWeight;
 
+    /**
+     * Convert font font.
+     *
+     * @param wb the wb
+     * @return the font
+     */
     public Font convertFont(Workbook wb){
         Font font = wb.createFont();
 

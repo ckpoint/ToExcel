@@ -3,12 +3,14 @@ package com.github.ckpoint.toexcel.core.style;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * The type To work book style.
+ */
 @Getter
 @EqualsAndHashCode
 public class ToWorkBookStyle {
@@ -28,6 +30,11 @@ public class ToWorkBookStyle {
     private short format = 0x0;
 
 
+    /**
+     * Instantiates a new To work book style.
+     *
+     * @param obj the obj
+     */
     public ToWorkBookStyle(Object obj) {
         if (obj == null) {
             return;
@@ -43,17 +50,32 @@ public class ToWorkBookStyle {
         }
     }
 
+    /**
+     * Update number type to work book style.
+     *
+     * @return the to work book style
+     */
     public ToWorkBookStyle updateNumberType() {
         updateformat("#,##0");
         this.alignment = HorizontalAlignment.RIGHT;
         return this;
     }
 
+    /**
+     * Update date type to work book style.
+     *
+     * @return the to work book style
+     */
     public ToWorkBookStyle updateDateType() {
         this.format = 0xe;
         return this;
     }
 
+    /**
+     * Update title type to work book style.
+     *
+     * @return the to work book style
+     */
     public ToWorkBookStyle updateTitleType() {
         this.fillForegroundColor = IndexedColors.GREY_25_PERCENT;
         this.fillPattern = CellStyle.SOLID_FOREGROUND;
@@ -63,15 +85,31 @@ public class ToWorkBookStyle {
     }
 
 
+    /**
+     * Updateformat.
+     *
+     * @param format the format
+     */
     public void updateformat(String format) {
         this.format = HSSFDataFormat.getBuiltinFormat(format);
     }
 
+    /**
+     * Updateformat.
+     *
+     * @param format the format
+     */
     public void updateformat(short format) {
         this.format = format;
     }
 
-    public CellStyle convertHssfStyle(HSSFWorkbook wb) {
+    /**
+     * Convert origin style cell style.
+     *
+     * @param wb the wb
+     * @return the cell style
+     */
+    public CellStyle convertOriginStyle(Workbook wb) {
         CellStyle cellStyle = wb.createCellStyle();
         cellStyle.setAlignment((short) this.alignment.ordinal());
         cellStyle.setVerticalAlignment((short) this.verticalAlignment.ordinal());
@@ -87,7 +125,7 @@ public class ToWorkBookStyle {
         if (this.fillPattern != null) {
             cellStyle.setFillPattern(this.fillPattern);
         }
-        if(this.font != null){
+        if (this.font != null) {
             cellStyle.setFont(this.font.convertFont(wb));
         }
 

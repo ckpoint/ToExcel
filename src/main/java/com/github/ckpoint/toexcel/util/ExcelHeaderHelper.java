@@ -1,8 +1,8 @@
 package com.github.ckpoint.toexcel.util;
 
 import com.github.ckpoint.toexcel.annotation.ExcelHeader;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Workbook;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,30 +10,47 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * The interface Excel header helper.
+ */
 public interface ExcelHeaderHelper {
 
-    default HSSFCellStyle getCellStyle(HSSFWorkbook workbook, ExcelHeader option, Class fieldType) {
+    /**
+     * Gets cell style.
+     *
+     * @param workbook  the workbook
+     * @param option    the option
+     * @param fieldType the field type
+     * @return the cell style
+     */
+    default CellStyle getCellStyle(Workbook workbook, ExcelHeader option, Class fieldType) {
 
-        HSSFCellStyle style = workbook.createCellStyle();
+        CellStyle style = workbook.createCellStyle();
 
         if (option != null) {
             style.setAlignment((short) option.alignment().ordinal());
             style.setVerticalAlignment((short) option.verticalAlignment().ordinal());
         } else {
-            style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-            style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+            style.setAlignment(CellStyle.ALIGN_CENTER);
+            style.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
         }
 
-        style.setBorderTop(HSSFCellStyle.BORDER_THIN);
-        style.setBorderRight(HSSFCellStyle.BORDER_THIN);
-        style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-        style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        style.setBorderTop(CellStyle.BORDER_THIN);
+        style.setBorderRight(CellStyle.BORDER_THIN);
+        style.setBorderLeft(CellStyle.BORDER_THIN);
+        style.setBorderBottom(CellStyle.BORDER_THIN);
 
         style.setDataFormat(option.format() >= 0 ? option.format() : TypeExcelFormatMap.findFormat(fieldType));
 
         return style;
     }
 
+    /**
+     * Header list list.
+     *
+     * @param header the header
+     * @return the list
+     */
     default List<String> headerList(ExcelHeader header) {
         List<String> headers = new ArrayList<>();
         headers.add(header.headerName());

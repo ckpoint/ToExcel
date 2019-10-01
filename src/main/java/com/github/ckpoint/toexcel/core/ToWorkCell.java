@@ -11,6 +11,9 @@ import org.apache.poi.ss.usermodel.RichTextString;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * The type To work cell.
+ */
 public class ToWorkCell implements ExcelHeaderHelper {
 
     private final ToWorkSheet sheet;
@@ -19,6 +22,14 @@ public class ToWorkCell implements ExcelHeaderHelper {
     @Getter
     private final ToWorkBookStyle style;
 
+    /**
+     * Instantiates a new To work cell.
+     *
+     * @param sheet the sheet
+     * @param cell  the cell
+     * @param value the value
+     * @param type  the type
+     */
     public ToWorkCell(ToWorkSheet sheet, Cell cell, Object value, ToWorkCellType type) {
 
         this.sheet = sheet;
@@ -37,10 +48,22 @@ public class ToWorkCell implements ExcelHeaderHelper {
         this.updateValue(value);
     }
 
+    /**
+     * Instantiates a new To work cell.
+     *
+     * @param sheet the sheet
+     * @param cell  the cell
+     * @param value the value
+     */
     public ToWorkCell(ToWorkSheet sheet, Cell cell, Object value) {
         this(sheet, cell, value, ToWorkCellType.VALUE);
     }
 
+    /**
+     * Update style.
+     *
+     * @param cellStyle the cell style
+     */
     public void updateStyle(CellStyle cellStyle) {
         this._cell.setCellStyle(cellStyle);
     }
