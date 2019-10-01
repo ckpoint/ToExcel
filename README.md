@@ -26,9 +26,9 @@ To-Excel depends on  [Apache POI](https://poi.apache.org), [Model Mapper](https:
 # Usage
 
 ## Table of Contents
-- [ 1. MAP TO OBJECT FROM EXCEL ](#map-to-object-from-excel)
-- [ 2. MAP TO EXCEL FROM OBJECT ](#map-to-excel-from-object)
-- [ 3. CREATE CUSTOM EXCEL SHEET](#create-excel-sheet)
+- [ 1. Map To Object From Excel ](#map-to-object-from-excel)
+- [ 2. Map To Excel From Object ](#map-to-excel-from-object)
+- [ 3. Create Custom Excel Sheet](#create-excel-sheet)
 
 ## 1. Map to Object from Excel
 #### Read data from a specific sheet in Excel and can map data to a specific class.
