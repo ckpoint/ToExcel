@@ -65,14 +65,14 @@ public class UserModel {
 ##### headerName must match the data header of Excel.
 ##### If there is no data field in Excel that matches the headerName, can search for the matching field in headerNames.
 
-### step3) Create ToWorkBook and ToWorkSheet instance
+### step2) Create ToWorkBook and ToWorkSheet instance
 
 ```java
         ToWorkBook toWorkBook = new ToWorkBook("target/excel/map/read_test_1.xlsx");
         ToWorkSheet toWorkSheet = toWorkBook.getSheetAt(0);
 ```
 
-### step4) You can now map data to model classes using ToWorkSheet's map function.
+### step3) You can now map data to model classes using ToWorkSheet's map function.
 
 ```java
         List<UserModel> userModels = toWorkSheet.map(UserModel.class);
