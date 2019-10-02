@@ -49,7 +49,7 @@ public class ToWorkBook {
      * @param file the file
      * @throws IOException the io exception
      */
-    public ToWorkBook(String file) throws IOException {
+    public ToWorkBook(File file) throws IOException {
         if (!file.exists() || file.isDirectory()) {
             throw new FileNotFoundException();
         }

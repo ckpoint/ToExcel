@@ -41,7 +41,7 @@ public interface TitleRowHelper extends ExcelHeaderHelper {
                 titleRow = tmpRow;
             }
         }
-        return titleRow;
+        return titleRow == null ? sheet.getRow(0) : titleRow;
     }
 
     /**

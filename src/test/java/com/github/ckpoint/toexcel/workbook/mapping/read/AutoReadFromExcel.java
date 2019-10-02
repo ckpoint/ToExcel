@@ -8,6 +8,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,7 +32,7 @@ public class AutoReadFromExcel {
 
     @Test
     public void b_excelReadToModelTest_01() throws IOException {
-        ToWorkBook toWorkBook = new ToWorkBook("target/excel/map/read_test_1.xlsx");
+        ToWorkBook toWorkBook = new ToWorkBook(new File("target/excel/map/read_test_1.xlsx"));
         ToWorkSheet toWorkSheet = toWorkBook.getSheetAt(0);
         List<UserModel> userModels = toWorkSheet.map(UserModel.class);
 

@@ -1,7 +1,9 @@
 package com.github.ckpoint.toexcel.core;
 
 import com.github.ckpoint.toexcel.annotation.ExcelHeader;
+import com.github.ckpoint.toexcel.core.model.CellPosition;
 import com.github.ckpoint.toexcel.core.model.ToTitleKey;
+import com.github.ckpoint.toexcel.core.type.SheetDirection;
 import com.github.ckpoint.toexcel.core.type.ToWorkCellType;
 import com.github.ckpoint.toexcel.util.ExcelHeaderHelper;
 import com.github.ckpoint.toexcel.util.ModelMapperGenerator;
@@ -30,6 +32,7 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
     @Getter
     private final String name;
     private final Workbook _wb;
+    private final CellPosition cellPosition;
 
     private Sheet _sheet;
 
@@ -61,11 +64,7 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
             this._sheet = this._wb.createSheet();
             this.name = this._sheet.getSheetName();
         }
-
-
-        if (_sheet.getLastRowNum() <= 0) {
-            this._sheet.createRow(0);
-        }
+        this.cellPosition = new CellPosition(_sheet);
     }
 
     /**
@@ -83,7 +82,7 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
         List<ToWorkCell> cells = new ArrayList<>();
 
         for (String value : values) {
-            Cell pcell = getNextCell();
+            Cell pcell = this.cellPosition.nextCell();
             _sheet.setColumnWidth(pcell.getColumnIndex(), DEFAULT_WIDTH_SIZE * width);
             cells.add(new ToWorkCell(this, pcell, value, ToWorkCellType.TITLE));
         }
@@ -100,7 +99,7 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
         if (values == null || values.length < 1) {
             return new ArrayList<>();
         }
-        return Arrays.stream(values).map(v -> new ToWorkCell(this, getNextCell(), v)).collect(Collectors.toList());
+        return Arrays.stream(values).map(v -> new ToWorkCell(this, cellPosition.nextCell(), v)).collect(Collectors.toList());
     }
 
     /**
@@ -108,8 +107,8 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
      *
      * @return the row
      */
-    public Row next() {
-        return this._sheet.createRow(this._sheet.getLastRowNum() + 1);
+    public void newLine() {
+        this.cellPosition.newLine();
     }
 
     /**
@@ -143,6 +142,20 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
         return proxyMapList.stream().map(map -> ModelMapperGenerator.enableFieldModelMapper().map(map, type)).collect(Collectors.toList());
     }
 
+    public ToWorkSheet updateDirection(SheetDirection sheetDirection) {
+        this.cellPosition.updateDirection(sheetDirection);
+        return this;
+    }
+
+    public List<ToWorkCell> skip(int cnt) {
+        List<Cell> cells = this.cellPosition.skip(cnt);
+        return cells.stream().map(v -> new ToWorkCell(this, v, null)).collect(Collectors.toList());
+    }
+
+    public void merge(int width, int height) {
+        this.cellPosition.merge(width, height);
+    }
+
     /**
      * From.
      *
@@ -166,7 +179,7 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
     }
 
     private void writeObject(Object obj, List<ToTitleKey> keys) {
-        this.next();
+        this.newLine();
         keys.forEach(key -> {
             Object value = "";
             try {
@@ -180,10 +193,11 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
     }
 
     private void clear() {
+
         for (int i = 0; i < this._sheet.getLastRowNum(); i++) {
             this._sheet.removeRow(this._sheet.getRow(i));
         }
-        this._sheet.createRow(0);
+        this.cellPosition.clear();
     }
 
     private Map<String, Object> rowToMap(Row row, Map<Integer, String> titleMaps, Set<ToTitleKey> setKeys) {
@@ -215,19 +229,6 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
                 return cell.getStringCellValue();
         }
     }
-
-
-    private Cell getNextCell() {
-        int cellCnt = this.getCellCnt();
-        Cell cell = this.getLastRow().createCell(cellCnt);
-        return cell;
-    }
-
-    private int getCellCnt() {
-        int cellCnt = this.getLastRow().getLastCellNum();
-        return cellCnt < 0 ? 0 : cellCnt;
-    }
-
 
     private Row getLastRow() {
         return this._sheet.getRow(this._sheet.getLastRowNum());
