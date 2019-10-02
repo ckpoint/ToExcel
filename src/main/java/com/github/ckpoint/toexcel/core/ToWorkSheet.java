@@ -103,9 +103,7 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
     }
 
     /**
-     * Next row.
-     *
-     * @return the row
+     * New line.
      */
     public void newLine() {
         this.cellPosition.newLine();
@@ -142,16 +140,34 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
         return proxyMapList.stream().map(map -> ModelMapperGenerator.enableFieldModelMapper().map(map, type)).collect(Collectors.toList());
     }
 
+    /**
+     * Update direction to work sheet.
+     *
+     * @param sheetDirection the sheet direction
+     * @return the to work sheet
+     */
     public ToWorkSheet updateDirection(SheetDirection sheetDirection) {
         this.cellPosition.updateDirection(sheetDirection);
         return this;
     }
 
+    /**
+     * Skip list.
+     *
+     * @param cnt the cnt
+     * @return the list
+     */
     public List<ToWorkCell> skip(int cnt) {
         List<Cell> cells = this.cellPosition.skip(cnt);
         return cells.stream().map(v -> new ToWorkCell(this, v, null)).collect(Collectors.toList());
     }
 
+    /**
+     * Merge.
+     *
+     * @param width  the width
+     * @param height the height
+     */
     public void merge(int width, int height) {
         this.cellPosition.merge(width, height);
     }

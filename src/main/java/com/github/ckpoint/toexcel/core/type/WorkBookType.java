@@ -15,7 +15,8 @@ public enum WorkBookType {
     /**
      * Hssf work book type.
      */
-    HSSF("xls"), /**
+    HSSF("xls"),
+    /**
      * Xssf work book type.
      */
     XSSF("xlsx");
