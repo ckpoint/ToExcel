@@ -8,7 +8,8 @@ public enum ToWorkCellType {
     /**
      * Title to work cell type.
      */
-    TITLE, /**
+    TITLE,
+    /**
      * Value to work cell type.
      */
     VALUE;

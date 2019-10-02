@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * The type Cell position.
+ */
 public class CellPosition {
 
     private int rowPosition;
@@ -18,10 +21,21 @@ public class CellPosition {
     private SheetDirection sheetDirection;
     private final Sheet _sheet;
 
+    /**
+     * Instantiates a new Cell position.
+     *
+     * @param _sheet the sheet
+     */
     public CellPosition(Sheet _sheet) {
         this(_sheet, SheetDirection.HORIZON);
     }
 
+    /**
+     * Instantiates a new Cell position.
+     *
+     * @param _sheet         the sheet
+     * @param sheetDirection the sheet direction
+     */
     public CellPosition(Sheet _sheet, SheetDirection sheetDirection) {
         this._sheet = _sheet;
         this.sheetDirection = sheetDirection;
@@ -30,6 +44,9 @@ public class CellPosition {
         }
     }
 
+    /**
+     * New line.
+     */
     public void newLine() {
         if (sheetDirection.equals(SheetDirection.HORIZON)) {
             this.rowPosition++;
@@ -40,6 +57,11 @@ public class CellPosition {
         }
     }
 
+    /**
+     * Next cell cell.
+     *
+     * @return the cell
+     */
     public Cell nextCell() {
         Row currentRow = _sheet.getRow(rowPosition);
         if (currentRow == null) {
@@ -58,20 +80,42 @@ public class CellPosition {
         }
     }
 
+    /**
+     * Clear.
+     */
     public void clear() {
         this.rowPosition = 0;
         this.cellPosition = 0;
     }
 
+    /**
+     * Update direction sheet direction.
+     *
+     * @param sheetDirection the sheet direction
+     * @return the sheet direction
+     */
     public SheetDirection updateDirection(SheetDirection sheetDirection) {
         this.sheetDirection = sheetDirection;
         return this.sheetDirection;
     }
 
+    /**
+     * Skip list.
+     *
+     * @param cnt the cnt
+     * @return the list
+     */
     public List<Cell> skip(int cnt) {
         return IntStream.range(0, cnt).mapToObj(i -> nextCell()).collect(Collectors.toList());
     }
 
+    /**
+     * Merge list.
+     *
+     * @param width  the width
+     * @param height the height
+     * @return the list
+     */
     public List<Cell> merge(int width, int height) {
         int targetCell = cellPosition + width - 1;
         int targetRow = rowPosition + height - 1;
