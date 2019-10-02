@@ -103,8 +103,8 @@ public class UserModel {
 ### step2) Define data in the model
 ```java
  List<UserModel> userModelList =
-                IntStream.range(0, 100).mapToObj(i ->
-                        UserModel.builder().name("tester" + i).age(i).gender("man").build()).collect(Collectors.toList());
+         IntStream.range(0, 100).mapToObj(i ->
+         UserModel.builder().name("tester" + i).age(i).gender("man").build()).collect(Collectors.toList());
 
 ```
 
