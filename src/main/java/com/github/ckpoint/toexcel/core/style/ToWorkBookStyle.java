@@ -2,6 +2,7 @@ package com.github.ckpoint.toexcel.core.style;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.ss.usermodel.*;
 
@@ -11,8 +12,9 @@ import java.util.Date;
 /**
  * The type To work book style.
  */
-@Getter
 @EqualsAndHashCode
+@Getter
+@Setter
 public class ToWorkBookStyle {
 
     private HorizontalAlignment alignment = HorizontalAlignment.CENTER;
@@ -24,11 +26,27 @@ public class ToWorkBookStyle {
 
     private Short fillPattern;
     private IndexedColors fillForegroundColor;
+    private IndexedColors fillBackgroundColor;
 
     private ToWorkBookFont font;
+    private Short format = 0x0;
+    private Boolean hidden;
+    private Boolean locked;
+    private Boolean wrapText;
+    private Short rotation;
+    private Short indention;
 
-    private short format = 0x0;
+    private IndexedColors boardColorTop = IndexedColors.BLACK;
+    private IndexedColors boardColorBottom = IndexedColors.BLACK;
+    private IndexedColors boardColorLeft = IndexedColors.BLACK;
+    private IndexedColors boardColorRight = IndexedColors.BLACK;
 
+    /**
+     * Instantiates a new To work book style.
+     */
+    public ToWorkBookStyle() {
+        this(null);
+    }
 
     /**
      * Instantiates a new To work book style.
@@ -80,7 +98,7 @@ public class ToWorkBookStyle {
         this.fillForegroundColor = IndexedColors.GREY_25_PERCENT;
         this.fillPattern = CellStyle.SOLID_FOREGROUND;
 
-        this.font = ToWorkBookFont.builder().boldWeight(Font.BOLDWEIGHT_BOLD).fontHeightInPoints((short) 8).build();
+        this.font = ToWorkBookFont.builder().boldWeight(Font.BOLDWEIGHT_BOLD).fontHeightInPoints((short) 12).build();
         return this;
     }
 
@@ -104,6 +122,30 @@ public class ToWorkBookStyle {
     }
 
     /**
+     * Update board color all.
+     *
+     * @param colors the colors
+     */
+    public void updateBoardColorAll(IndexedColors colors) {
+        this.boardColorTop = colors;
+        this.boardColorBottom = colors;
+        this.boardColorLeft = colors;
+        this.boardColorRight = colors;
+    }
+
+    /**
+     * Update board all.
+     *
+     * @param borderStyle the border style
+     */
+    public void updateBoardAll(BorderStyle borderStyle) {
+        this.borderTop = borderStyle;
+        this.borderBottom = borderStyle;
+        this.borderLeft = borderStyle;
+        this.borderRight = borderStyle;
+    }
+
+    /**
      * Convert origin style cell style.
      *
      * @param wb the wb
@@ -117,10 +159,21 @@ public class ToWorkBookStyle {
         cellStyle.setBorderBottom((short) this.borderBottom.ordinal());
         cellStyle.setBorderLeft((short) this.borderLeft.ordinal());
         cellStyle.setBorderRight((short) this.borderRight.ordinal());
+
+        cellStyle.setTopBorderColor(this.boardColorTop.getIndex());
+        cellStyle.setBottomBorderColor(this.boardColorBottom.getIndex());
+        cellStyle.setLeftBorderColor(this.boardColorLeft.getIndex());
+        cellStyle.setRightBorderColor(this.boardColorRight.getIndex());
+
         cellStyle.setDataFormat(this.format);
+
 
         if (this.fillForegroundColor != null) {
             cellStyle.setFillForegroundColor(this.fillForegroundColor.getIndex());
+        }
+
+        if (this.fillBackgroundColor != null) {
+            cellStyle.setFillBackgroundColor(this.fillBackgroundColor.getIndex());
         }
         if (this.fillPattern != null) {
             cellStyle.setFillPattern(this.fillPattern);
@@ -128,8 +181,26 @@ public class ToWorkBookStyle {
         if (this.font != null) {
             cellStyle.setFont(this.font.convertFont(wb));
         }
+        if (this.hidden != null) {
+            cellStyle.setHidden(this.hidden);
+        }
+        if (this.locked != null) {
+            cellStyle.setLocked(this.locked);
+        }
+
+        if (this.wrapText != null) {
+            cellStyle.setWrapText(this.wrapText);
+        }
+
+        if (this.rotation != null) {
+            cellStyle.setRotation(this.rotation);
+        }
+        if (this.indention != null) {
+            cellStyle.setIndention(this.indention);
+        }
 
         return cellStyle;
     }
+
 
 }

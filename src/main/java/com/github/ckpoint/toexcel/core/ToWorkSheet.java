@@ -3,6 +3,7 @@ package com.github.ckpoint.toexcel.core;
 import com.github.ckpoint.toexcel.annotation.ExcelHeader;
 import com.github.ckpoint.toexcel.core.model.CellPosition;
 import com.github.ckpoint.toexcel.core.model.ToTitleKey;
+import com.github.ckpoint.toexcel.core.style.ToWorkBookStyle;
 import com.github.ckpoint.toexcel.core.type.SheetDirection;
 import com.github.ckpoint.toexcel.core.type.ToWorkCellType;
 import com.github.ckpoint.toexcel.util.ExcelHeaderHelper;
@@ -89,10 +90,31 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
         return cells;
     }
 
+    /**
+     * Create cell to newline list.
+     *
+     * @param values the values
+     * @return the list
+     */
     public List<ToWorkCell> createCellToNewline(Object... values) {
-       this.newLine();
-       return createCell(values);
+        this.newLine();
+        return createCell(values);
     }
+
+    /**
+     * Create cell list.
+     *
+     * @param style  the style
+     * @param values the values
+     * @return the list
+     */
+    public List<ToWorkCell> createCell(ToWorkBookStyle style, Object... values) {
+        if (values == null || values.length < 1) {
+            return new ArrayList<>();
+        }
+        return Arrays.stream(values).map(v -> new ToWorkCell(this, cellPosition.nextCell(), v, style)).collect(Collectors.toList());
+    }
+
     /**
      * Create cell list.
      *

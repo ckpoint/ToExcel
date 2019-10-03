@@ -12,7 +12,12 @@ public enum ToWorkCellType {
     /**
      * Value to work cell type.
      */
-    VALUE;
+    VALUE,
+    /**
+     * Custom to work cell type.
+     */
+    CUSTOM;
+
 
     /**
      * Is title boolean.
