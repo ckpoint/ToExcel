@@ -120,15 +120,16 @@ public class CellPosition {
         int targetCell = cellPosition + width - 1;
         int targetRow = rowPosition + height - 1;
         List<Cell> mergeCellList = new ArrayList<>();
-        Cell originCell = null;
+        Cell originCell = this._sheet.getRow(rowPosition) == null
+                ? null : this._sheet.getRow(rowPosition).getCell(cellPosition);
 
-        for (int rowIdx = rowPosition; rowIdx < targetRow; rowIdx++) {
+        for (int rowIdx = rowPosition; rowIdx <= targetRow; rowIdx++) {
             Row row = _sheet.getRow(rowIdx) == null ? _sheet.createRow(rowIdx) : _sheet.getRow(rowIdx);
-            for (int cellIdx = cellPosition; cellIdx < targetCell; cellIdx++) {
+            for (int cellIdx = cellPosition; cellIdx <= targetCell; cellIdx++) {
                 if (row.getCell(cellIdx) == null) {
                     mergeCellList.add(row.createCell(cellIdx));
                 } else {
-                    originCell = row.getCell(cellIdx);
+                    originCell = originCell != null ? originCell :row.getCell(cellIdx);
                     mergeCellList.add(originCell);
                 }
             }
@@ -143,6 +144,7 @@ public class CellPosition {
 
         if (originCell != null) {
             for (Cell cell : mergeCellList) {
+                _sheet.setColumnWidth(cell.getColumnIndex(), _sheet.getColumnWidth(originCell.getColumnIndex()));
                 cell.setCellValue(originCell.getStringCellValue());
                 cell.setCellStyle(originCell.getCellStyle());
             }

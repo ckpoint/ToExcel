@@ -13,23 +13,42 @@ public class MergeCellTest {
 
     @Test
     public void mergeCellTest_horizon_01() throws IOException {
-        ToWorkBook workBook = new ToWorkBook(WorkBookType.HSSF);
+        ToWorkBook workBook = new ToWorkBook(WorkBookType.XSSF);
         ToWorkSheet sheet = workBook.createSheet().updateDirection(SheetDirection.HORIZON);
 
-        sheet.createTitleCell(2, "이름", "나이");
-        sheet.merge(2, 3);
-        workBook.writeFile("target/excel/manual/merge/merge_horizon_01.xls");
+        sheet.createTitleCell(2, "name", "age", "contactNumber");
+        sheet.merge(2, 1); // 2(width) X 1(height) [][]
+        sheet.createCellToNewline("sharky", "36", "010-1234-0000", "02-1111-1234");
+        sheet.createCellToNewline("melpis", "36", "010-1111-1234", "02-4221-1234");
+        sheet.createCellToNewline("heeseob", "32", "010-0000-1234", "-");
+        sheet.createCellToNewline("dongjun", "31", "010-4324-1234", "031-4121-1234");
+
+        workBook.writeFile("target/excel/manual/merge/merge_horizon_01");
     }
 
     @Test
-    public void mergeCellTest_vertical_01() throws IOException {
+    public void mergeCellTest_horizon_02() throws IOException {
         ToWorkBook workBook = new ToWorkBook(WorkBookType.XSSF);
-        ToWorkSheet sheet = workBook.createSheet().updateDirection(SheetDirection.VERTICAL);
+        ToWorkSheet sheet = workBook.createSheet().updateDirection(SheetDirection.HORIZON);
 
-        sheet.createTitleCell(2, "이름", "나이");
-        sheet.merge(2, 3);
+        sheet.createTitleCell(2, "name");
+        sheet.merge(1, 2);
 
-        workBook.writeFile("target/excel/manual/merge/merge_vertical_01.xls");
+        sheet.createTitleCell(2, "age");
+        sheet.merge(1, 2);
+
+        sheet.createTitleCell(2, "contactNumber");
+        sheet.merge(2, 1);
+        sheet.newLine();
+
+        sheet.createTitleCell(2,"phone", "home");
+
+        sheet.createCellToNewline("sharky", "36", "010-1234-0000", "02-1111-1234");
+        sheet.createCellToNewline("melpis", "36", "010-1111-1234", "02-4221-1234");
+        sheet.createCellToNewline("heeseob", "32", "010-0000-1234", "-");
+        sheet.createCellToNewline("dongjun", "31", "010-4324-1234", "031-4121-1234");
+
+        workBook.writeFile("target/excel/manual/merge/merge_horizon_02");
     }
 
 }

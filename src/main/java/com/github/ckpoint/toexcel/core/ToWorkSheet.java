@@ -89,6 +89,10 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
         return cells;
     }
 
+    public List<ToWorkCell> createCellToNewline(Object... values) {
+       this.newLine();
+       return createCell(values);
+    }
     /**
      * Create cell list.
      *
