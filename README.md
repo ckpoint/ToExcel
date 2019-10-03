@@ -71,10 +71,6 @@ public class UserModel {
 ```
 
 
-##### Finally, the following Excel is created.
-
-![image](https://user-images.githubusercontent.com/30170928/66096579-657d8e00-e5d6-11e9-85af-c39dec335ece.png)
-
 ## 2. Map To Excel From Object
 #### You can easily map data defined in the model to Excel.
 
@@ -117,6 +113,10 @@ public class UserModel {
    sheet.from(userModelList);
    workBook.writeFile("target/excel/map/write_test_1");
 ```
+
+##### Finally, the following Excel is created.
+
+![image](https://user-images.githubusercontent.com/30170928/66096579-657d8e00-e5d6-11e9-85af-c39dec335ece.png)
 
 ## 3. Create Custom Excel Sheet
 ####  You can more freely write data to Excel without defining a model.
