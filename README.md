@@ -60,14 +60,14 @@ public class UserModel {
 ### step2) Create ToWorkBook and ToWorkSheet instance
 
 ```java
-        ToWorkBook toWorkBook = new ToWorkBook("target/excel/map/read_test_1.xlsx");
-        ToWorkSheet toWorkSheet = toWorkBook.getSheetAt(0);
+   ToWorkBook toWorkBook = new ToWorkBook("target/excel/map/read_test_1.xlsx");
+   ToWorkSheet toWorkSheet = toWorkBook.getSheetAt(0);
 ```
 
 ### step3) You can now map data to model classes using ToWorkSheet's map function.
 
 ```java
-        List<UserModel> userModels = toWorkSheet.map(UserModel.class);
+   List<UserModel> userModels = toWorkSheet.map(UserModel.class);
 ```
 
 
@@ -77,15 +77,15 @@ public class UserModel {
 #### step1) define the model class to be mapped to Excel as below.
 
 ```java
-@Builder
-public class UserModel {
+   @Builder
+   public class UserModel {
 
-    @ExcelHeader(headerName = "name", priority = 0)
-    private String name;
-    @ExcelHeader(headerName = "age", priority = 1)
-    private Integer age;
-    @ExcelHeader(headerName = "gender", priority = 2)
-    private String gender;
+     @ExcelHeader(headerName = "name", priority = 0)
+     private String name;
+     @ExcelHeader(headerName = "age", priority = 1)
+     private Integer age;
+     @ExcelHeader(headerName = "gender", priority = 2)
+     private String gender;
 }
 ```
 
@@ -95,16 +95,15 @@ public class UserModel {
 
 ### step2) Define data in the model
 ```java
- List<UserModel> userModelList =
-         IntStream.range(0, 100).mapToObj(i ->
-         UserModel.builder().name("tester" + i).age(i).gender("man").build()).collect(Collectors.toList());
-
+   List<UserModel> userModelList =
+       IntStream.range(0, 100).mapToObj(i ->
+       UserModel.builder().name("tester" + i).age(i).gender("man").build()).collect(Collectors.toList());
 ```
 
 ### step3) Create instance ToWorkBook and ToWorkSheet
 ```java
-        ToWorkBook workBook = new ToWorkBook(WorkBookType.XSSF);
-        ToWorkSheet sheet = workBook.createSheet();
+   ToWorkBook workBook = new ToWorkBook(WorkBookType.XSSF);
+   ToWorkSheet sheet = workBook.createSheet();
 ```
 
 ### step4) Use ToWorkSheet's from function to map data to a sheet and write it to a file.
@@ -128,17 +127,17 @@ public class UserModel {
 ![image](https://user-images.githubusercontent.com/30170928/66097565-cb1f4980-e5d9-11e9-8f97-82e879620266.png)
 
 ```java
-      ToWorkBook workBook = new ToWorkBook(WorkBookType.XSSF);
-      ToWorkSheet sheet = workBook.createSheet().updateDirection(SheetDirection.HORIZON);
+   ToWorkBook workBook = new ToWorkBook(WorkBookType.XSSF);
+   ToWorkSheet sheet = workBook.createSheet().updateDirection(SheetDirection.HORIZON);
 
-      sheet.createTitleCell(2, "name", "age", "contactNumber");
-      sheet.merge(2, 1); // 2(width) X 1(height) [][]
-      sheet.createCellToNewline("sharky", "36", "010-1234-0000", "02-1111-1234");
-      sheet.createCellToNewline("melpis", "36", "010-1111-1234", "02-4221-1234");
-      sheet.createCellToNewline("heeseob", "32", "010-0000-1234", "-");
-      sheet.createCellToNewline("dongjun", "31", "010-4324-1234", "031-4121-1234");
+   sheet.createTitleCell(2, "name", "age", "contactNumber");
+   sheet.merge(2, 1); // 2(width) X 1(height) [][]
+   sheet.createCellToNewline("sharky", "36", "010-1234-0000", "02-1111-1234");
+   sheet.createCellToNewline("melpis", "36", "010-1111-1234", "02-4221-1234");
+   sheet.createCellToNewline("heeseob", "32", "010-0000-1234", "-");
+   sheet.createCellToNewline("dongjun", "31", "010-4324-1234", "031-4121-1234");
 
-      workBook.writeFile("target/excel/manual/merge/merge_horizon_01");
+   workBook.writeFile("target/excel/manual/merge/merge_horizon_01");
 ```
 
 ### B. Multiple cells merged horizontally and vertically
@@ -146,25 +145,25 @@ public class UserModel {
 ![image](https://user-images.githubusercontent.com/30170928/66097671-4ed93600-e5da-11e9-9e46-41eb898509be.png)
 
 ```java
-  ToWorkBook workBook = new ToWorkBook(WorkBookType.XSSF);
-  ToWorkSheet sheet = workBook.createSheet().updateDirection(SheetDirection.HORIZON);
+   ToWorkBook workBook = new ToWorkBook(WorkBookType.XSSF);
+   ToWorkSheet sheet = workBook.createSheet().updateDirection(SheetDirection.HORIZON);
 
-  sheet.createTitleCell(2, "name");
-  sheet.merge(1, 2);
+   sheet.createTitleCell(2, "name");
+   sheet.merge(1, 2);
 
-  sheet.createTitleCell(2, "age");
-  sheet.merge(1, 2);
+   sheet.createTitleCell(2, "age");
+   sheet.merge(1, 2);
 
-  sheet.createTitleCell(2, "contactNumber");
-  sheet.merge(2, 1);
-  sheet.newLine();
+   sheet.createTitleCell(2, "contactNumber");
+   sheet.merge(2, 1);
+   sheet.newLine();
 
-  sheet.createTitleCell(2,"phone", "home");
+   sheet.createTitleCell(2,"phone", "home");
 
-  sheet.createCellToNewline("sharky", "36", "010-1234-0000", "02-1111-1234");
-  sheet.createCellToNewline("melpis", "36", "010-1111-1234", "02-4221-1234");
-  sheet.createCellToNewline("heeseob", "32", "010-0000-1234", "-");
-  sheet.createCellToNewline("dongjun", "31", "010-4324-1234", "031-4121-1234");
+   sheet.createCellToNewline("sharky", "36", "010-1234-0000", "02-1111-1234");
+   sheet.createCellToNewline("melpis", "36", "010-1111-1234", "02-4221-1234");
+   sheet.createCellToNewline("heeseob", "32", "010-0000-1234", "-");
+   sheet.createCellToNewline("dongjun", "31", "010-4324-1234", "031-4121-1234");
 
-  workBook.writeFile("target/excel/manual/merge/merge_horizon_02");
+   workBook.writeFile("target/excel/manual/merge/merge_horizon_02");
 ```
