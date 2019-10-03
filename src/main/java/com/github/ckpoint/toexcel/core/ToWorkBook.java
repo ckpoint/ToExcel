@@ -20,15 +20,12 @@ import java.util.stream.IntStream;
  */
 public class ToWorkBook {
 
-    private final Workbook _wb;
-
-    private final Map<ToWorkBookStyle, CellStyle> _styleMap = new HashMap<>();
-
     /**
      * The constant MAX_EXCEL_ROW.
      */
     public static final Integer MAX_EXCEL_ROW = 65535;
-
+    private final Workbook _wb;
+    private final Map<ToWorkBookStyle, CellStyle> _styleMap = new HashMap<>();
     private final WorkBookType type;
 
     private List<ToWorkSheet> sheets = new ArrayList<>();
@@ -97,18 +94,28 @@ public class ToWorkBook {
 
 
     /**
-     * Write file.
+     * Write.
      *
      * @param filePath the file path
      * @throws IOException the io exception
      */
-    public void writeFile(String filePath) throws IOException {
+    public void write(String filePath) throws IOException {
         String fp = this.type.translateFileName(filePath);
         File file = new File(fp);
         Files.createDirectories(file.getParentFile().toPath());
 
         FileOutputStream fileOutputStream = new FileOutputStream(fp);
         this._wb.write(fileOutputStream);
+    }
+
+    /**
+     * Write.
+     *
+     * @param outputStream the output stream
+     * @throws IOException the io exception
+     */
+    public void write(OutputStream outputStream) throws IOException {
+        this._wb.write(outputStream);
     }
 
     /**

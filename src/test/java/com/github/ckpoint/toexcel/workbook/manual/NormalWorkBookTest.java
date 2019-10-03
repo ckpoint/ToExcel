@@ -23,7 +23,7 @@ public class NormalWorkBookTest {
             sheet.newLine();
         });
 
-        workBook.writeFile("target/excel/manual/normal_01.xls");
+        workBook.write("target/excel/manual/normal_01.xls");
 
 
     }

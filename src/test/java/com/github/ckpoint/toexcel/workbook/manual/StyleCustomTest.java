@@ -31,7 +31,7 @@ public class StyleCustomTest {
             sheet.newLine();
         });
 
-        workBook.writeFile("target/excel/manual/custom/custom_style_01.xls");
+        workBook.write("target/excel/manual/custom/custom_style_01.xls");
 
 
     }

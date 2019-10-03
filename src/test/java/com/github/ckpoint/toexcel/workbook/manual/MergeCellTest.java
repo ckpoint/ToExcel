@@ -7,7 +7,6 @@ import com.github.ckpoint.toexcel.core.type.WorkBookType;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.stream.IntStream;
 
 public class MergeCellTest {
 
@@ -23,7 +22,7 @@ public class MergeCellTest {
         sheet.createCellToNewline("heeseob", "32", "010-0000-1234", "-");
         sheet.createCellToNewline("dongjun", "31", "010-4324-1234", "031-4121-1234");
 
-        workBook.writeFile("target/excel/manual/merge/merge_horizon_01");
+        workBook.write("target/excel/manual/merge/merge_horizon_01");
     }
 
     @Test
@@ -48,7 +47,7 @@ public class MergeCellTest {
         sheet.createCellToNewline("heeseob", "32", "010-0000-1234", "-");
         sheet.createCellToNewline("dongjun", "31", "010-4324-1234", "031-4121-1234");
 
-        workBook.writeFile("target/excel/manual/merge/merge_horizon_02");
+        workBook.write("target/excel/manual/merge/merge_horizon_02");
     }
 
 }

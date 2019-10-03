@@ -23,7 +23,7 @@ public class AutoMapptingFromModelTest {
         ToWorkSheet sheet = workBook.createSheet();
         sheet.from(userModelList);
 
-        workBook.writeFile("target/excel/map/write_test_1");
+        workBook.write("target/excel/map/write_test_1");
 
     }
 }

@@ -24,7 +24,7 @@ public class SkipCellTest {
             sheet.newLine();
         });
 
-        workBook.writeFile("target/excel/manual/skip/skip_horizon_01.xls");
+        workBook.write("target/excel/manual/skip/skip_horizon_01.xls");
     }
 
     @Test
@@ -40,7 +40,7 @@ public class SkipCellTest {
             sheet.newLine();
         });
 
-        workBook.writeFile("target/excel/manual/skip/skip_vertical_01.xls");
+        workBook.write("target/excel/manual/skip/skip_vertical_01.xls");
     }
 
 }
