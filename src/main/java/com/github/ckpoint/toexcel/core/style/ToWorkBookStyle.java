@@ -1,8 +1,6 @@
 package com.github.ckpoint.toexcel.core.style;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.ss.usermodel.*;
 
@@ -108,7 +106,7 @@ public class ToWorkBookStyle {
      *
      * @param format the format
      */
-    public void updateformat(String format) {
+    public void updateformat(@NonNull String format) {
         this.format = HSSFDataFormat.getBuiltinFormat(format);
     }
 
@@ -151,7 +149,7 @@ public class ToWorkBookStyle {
      * @param wb the wb
      * @return the cell style
      */
-    public CellStyle convertOriginStyle(Workbook wb) {
+    public CellStyle convertOriginStyle(@NonNull Workbook wb) {
         CellStyle cellStyle = wb.createCellStyle();
         cellStyle.setAlignment((short) this.alignment.ordinal());
         cellStyle.setVerticalAlignment((short) this.verticalAlignment.ordinal());

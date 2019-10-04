@@ -1,6 +1,7 @@
 package com.github.ckpoint.toexcel.util;
 
 import com.github.ckpoint.toexcel.annotation.ExcelHeader;
+import lombok.NonNull;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -24,7 +25,7 @@ public interface TitleRowHelper extends ExcelHeaderHelper {
      * @param sheet the sheet
      * @return the row
      */
-    default Row findTitleRow(Class type, Sheet sheet) {
+    default Row findTitleRow(@NonNull Class type, @NonNull Sheet sheet) {
 
         Field[] fields = type.getDeclaredFields();
         List<String> titles = new ArrayList<>();

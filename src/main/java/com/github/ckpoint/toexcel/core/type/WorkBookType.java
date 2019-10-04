@@ -1,5 +1,6 @@
 package com.github.ckpoint.toexcel.core.type;
 
+import lombok.NonNull;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -47,7 +48,7 @@ public enum WorkBookType {
      * @return the workbook
      * @throws IOException the io exception
      */
-    public Workbook createWorkBookInstance(File file) throws IOException {
+    public Workbook createWorkBookInstance(@NonNull File file) throws IOException {
         FileInputStream fis = new FileInputStream(file);
         return createWorkBookInstance(fis);
     }
@@ -59,7 +60,7 @@ public enum WorkBookType {
      * @return the workbook
      * @throws IOException the io exception
      */
-    public Workbook createWorkBookInstance(FileInputStream fis) throws IOException {
+    public Workbook createWorkBookInstance(@NonNull FileInputStream fis) throws IOException {
         if (this.equals(HSSF)) {
             return new HSSFWorkbook(fis);
         }
@@ -72,7 +73,7 @@ public enum WorkBookType {
      * @param filename the filename
      * @return the string
      */
-    public String translateFileName(String filename) {
+    public String translateFileName(@NonNull String filename) {
         String _fp = filename;
         if (_fp.lastIndexOf(".") > 0) {
             _fp = _fp.substring(0, _fp.indexOf("."));

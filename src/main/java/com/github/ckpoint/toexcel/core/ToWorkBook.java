@@ -48,7 +48,7 @@ public class ToWorkBook {
      * @param file the file
      * @throws IOException the io exception
      */
-    public ToWorkBook(File file) throws IOException {
+    public ToWorkBook(@NonNull File file) throws IOException {
         if (!file.exists() || file.isDirectory()) {
             throw new FileNotFoundException();
         }
@@ -101,7 +101,7 @@ public class ToWorkBook {
      * @param filePath the file path
      * @throws IOException the io exception
      */
-    public void write(String filePath) throws IOException {
+    public void write(@NonNull String filePath) throws IOException {
         String fp = this.type.translateFileName(filePath);
         File file = new File(fp);
         Files.createDirectories(file.getParentFile().toPath());
@@ -116,7 +116,7 @@ public class ToWorkBook {
      * @param outputStream the output stream
      * @throws IOException the io exception
      */
-    public void write(OutputStream outputStream) throws IOException {
+    public void write(@NonNull OutputStream outputStream) throws IOException {
         this._wb.write(outputStream);
     }
 
@@ -145,7 +145,7 @@ public class ToWorkBook {
      * @param name the name
      * @return the sheet
      */
-    public ToWorkSheet getSheet(String name) {
+    public ToWorkSheet getSheet(@NonNull String name) {
         return this.sheets.stream().filter(st -> name.equalsIgnoreCase(st.getName())).findFirst().orElse(null);
     }
 
@@ -155,7 +155,7 @@ public class ToWorkBook {
      * @param cell the cell
      * @return the cell style
      */
-    public synchronized CellStyle createStyle(ToWorkCell cell) {
+    public synchronized CellStyle createStyle(@NonNull ToWorkCell cell) {
         CellStyle cellStyle = _styleMap.get(cell.getStyle());
         if (cellStyle != null) {
             return cellStyle;

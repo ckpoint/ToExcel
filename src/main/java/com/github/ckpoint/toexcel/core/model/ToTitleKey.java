@@ -3,6 +3,7 @@ package com.github.ckpoint.toexcel.core.model;
 import com.github.ckpoint.toexcel.annotation.ExcelHeader;
 import com.github.ckpoint.toexcel.util.ExcelHeaderHelper;
 import lombok.Getter;
+import lombok.NonNull;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -23,7 +24,7 @@ public class ToTitleKey implements ExcelHeaderHelper, Comparable<ToTitleKey> {
      *
      * @param field the field
      */
-    public ToTitleKey(Field field) {
+    public ToTitleKey(@NonNull Field field) {
         this.field = field;
         this.key = field.getName();
         this.header = field.getAnnotation(ExcelHeader.class);

@@ -2,6 +2,7 @@ package com.github.ckpoint.toexcel.core.style;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Workbook;
 
@@ -29,7 +30,7 @@ public class ToWorkBookFont {
      * @param wb the wb
      * @return the font
      */
-    public Font convertFont(Workbook wb){
+    public Font convertFont(@NonNull Workbook wb){
         Font font = wb.createFont();
 
         if(fontName != null){

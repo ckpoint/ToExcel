@@ -1,6 +1,7 @@
 package com.github.ckpoint.toexcel.util;
 
 import com.github.ckpoint.toexcel.annotation.ExcelHeader;
+import lombok.NonNull;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Workbook;
 
@@ -23,7 +24,7 @@ public interface ExcelHeaderHelper {
      * @param fieldType the field type
      * @return the cell style
      */
-    default CellStyle getCellStyle(Workbook workbook, ExcelHeader option, Class fieldType) {
+    default CellStyle getCellStyle(@NonNull Workbook workbook, ExcelHeader option, Class fieldType) {
 
         CellStyle style = workbook.createCellStyle();
 
@@ -51,7 +52,7 @@ public interface ExcelHeaderHelper {
      * @param header the header
      * @return the list
      */
-    default List<String> headerList(ExcelHeader header) {
+    default List<String> headerList(@NonNull ExcelHeader header) {
         List<String> headers = new ArrayList<>();
         headers.add(header.headerName());
         headers.addAll(Arrays.asList(header.headerNames()));

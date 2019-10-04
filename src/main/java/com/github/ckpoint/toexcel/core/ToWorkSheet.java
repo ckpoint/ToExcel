@@ -10,6 +10,7 @@ import com.github.ckpoint.toexcel.util.ExcelHeaderHelper;
 import com.github.ckpoint.toexcel.util.ModelMapperGenerator;
 import com.github.ckpoint.toexcel.util.TitleRowHelper;
 import lombok.Getter;
+import lombok.NonNull;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -43,7 +44,7 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
      * @param toWorkBook the to work book
      * @param wb         the wb
      */
-    public ToWorkSheet(ToWorkBook toWorkBook, Workbook wb) {
+    public ToWorkSheet(@NonNull ToWorkBook toWorkBook, @NonNull Workbook wb) {
         this(toWorkBook, wb, null);
     }
 
@@ -54,7 +55,7 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
      * @param wb         the wb
      * @param name       the name
      */
-    public ToWorkSheet(ToWorkBook toWorkBook, Workbook wb, String name) {
+    public ToWorkSheet(@NonNull ToWorkBook toWorkBook, @NonNull Workbook wb, String name) {
         this.workBook = toWorkBook;
         this._wb = wb;
 
@@ -108,7 +109,7 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
      * @param values the values
      * @return the list
      */
-    public List<ToWorkCell> createCell(ToWorkBookStyle style, Object... values) {
+    public List<ToWorkCell> createCell(@NonNull ToWorkBookStyle style, Object... values) {
         if (values == null || values.length < 1) {
             return new ArrayList<>();
         }

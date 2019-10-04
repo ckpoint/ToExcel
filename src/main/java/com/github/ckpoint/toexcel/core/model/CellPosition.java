@@ -1,6 +1,7 @@
 package com.github.ckpoint.toexcel.core.model;
 
 import com.github.ckpoint.toexcel.core.type.SheetDirection;
+import lombok.NonNull;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -26,7 +27,7 @@ public class CellPosition {
      *
      * @param _sheet the sheet
      */
-    public CellPosition(Sheet _sheet) {
+    public CellPosition(@NonNull Sheet _sheet) {
         this(_sheet, SheetDirection.HORIZON);
     }
 
@@ -36,7 +37,7 @@ public class CellPosition {
      * @param _sheet         the sheet
      * @param sheetDirection the sheet direction
      */
-    public CellPosition(Sheet _sheet, SheetDirection sheetDirection) {
+    public CellPosition(@NonNull Sheet _sheet, SheetDirection sheetDirection) {
         this._sheet = _sheet;
         this.sheetDirection = sheetDirection;
         if (this._sheet.getRow(0) == null) {
@@ -129,14 +130,14 @@ public class CellPosition {
                 if (row.getCell(cellIdx) == null) {
                     mergeCellList.add(row.createCell(cellIdx));
                 } else {
-                    originCell = originCell != null ? originCell :row.getCell(cellIdx);
+                    originCell = originCell != null ? originCell : row.getCell(cellIdx);
                     mergeCellList.add(originCell);
                 }
             }
         }
         _sheet.addMergedRegion(new CellRangeAddress(rowPosition, targetRow, cellPosition, targetCell));
 
-        if (this.sheetDirection.equals(SheetDirection.HORIZON)) {
+        if (SheetDirection.HORIZON.equals(this.sheetDirection)) {
             this.cellPosition = targetCell;
         } else {
             this.rowPosition = targetRow;
@@ -153,7 +154,7 @@ public class CellPosition {
     }
 
     private void cellCountPlus() {
-        if (this.sheetDirection.equals(SheetDirection.HORIZON)) {
+        if (SheetDirection.HORIZON.equals(this.sheetDirection)) {
             this.cellPosition++;
         } else {
             this.rowPosition++;
