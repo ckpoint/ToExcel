@@ -2,6 +2,7 @@ package com.github.ckpoint.toexcel.core;
 
 import com.github.ckpoint.toexcel.core.style.ToWorkBookStyle;
 import com.github.ckpoint.toexcel.core.type.WorkBookType;
+import lombok.Getter;
 import lombok.NonNull;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -28,6 +29,7 @@ public class ToWorkBook {
     private final Map<ToWorkBookStyle, CellStyle> _styleMap = new HashMap<>();
     private final WorkBookType type;
 
+    @Getter
     private List<ToWorkSheet> sheets = new ArrayList<>();
 
     /**
