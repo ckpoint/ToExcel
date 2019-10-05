@@ -4,6 +4,7 @@ import com.github.ckpoint.toexcel.core.ToWorkBook;
 import com.github.ckpoint.toexcel.core.ToWorkSheet;
 import com.github.ckpoint.toexcel.core.type.SheetDirection;
 import com.github.ckpoint.toexcel.core.type.WorkBookType;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -24,6 +25,15 @@ public class SkipCellTest {
             sheet.newLine();
         });
 
+        Assert.assertTrue(sheet.getCell(1, 0).getStringCellValue().isEmpty());
+        Assert.assertTrue(sheet.getCell(2, 0).getStringCellValue().isEmpty());
+        Assert.assertTrue(sheet.getCell(1, 1).getStringCellValue().equals("희섭0"));
+
+        Assert.assertTrue(sheet.getCell(0, 2) == null);
+        Assert.assertTrue(sheet.getCell(1, 2) != null);
+        Assert.assertTrue(sheet.getCell(2, 2) != null);
+
+
         workBook.write("target/excel/manual/skip/skip_horizon_01.xls");
     }
 
@@ -39,6 +49,15 @@ public class SkipCellTest {
             sheet.createCell("희섭" + i, 1 + i);
             sheet.newLine();
         });
+
+        Assert.assertTrue(sheet.getCell(0, 1).getStringCellValue().isEmpty());
+        Assert.assertTrue(sheet.getCell(0, 2).getStringCellValue().isEmpty());
+        Assert.assertTrue(sheet.getCell(1, 1).getStringCellValue().equals("희섭0"));
+        Assert.assertTrue(sheet.getCell(1, 2).getStringCellValue().equals("희섭1"));
+
+        Assert.assertTrue(sheet.getCell(2, 0) == null);
+        Assert.assertTrue(sheet.getCell(0, 1) != null);
+        Assert.assertTrue(sheet.getCell(0, 2) != null);
 
         workBook.write("target/excel/manual/skip/skip_vertical_01.xls");
     }

@@ -4,6 +4,7 @@ import com.github.ckpoint.toexcel.core.ToWorkBook;
 import com.github.ckpoint.toexcel.core.ToWorkSheet;
 import com.github.ckpoint.toexcel.core.type.SheetDirection;
 import com.github.ckpoint.toexcel.core.type.WorkBookType;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -21,6 +22,12 @@ public class MergeCellTest {
         sheet.createCellToNewline("melpis", "36", "010-1111-1234", "02-4221-1234");
         sheet.createCellToNewline("heeseob", "32", "010-0000-1234", "-");
         sheet.createCellToNewline("dongjun", "31", "010-4324-1234", "031-4121-1234");
+
+        Assert.assertTrue(sheet.getMergedRegions().get(0).getFirstRow() == 0 );
+        Assert.assertTrue(sheet.getMergedRegions().get(0).getLastRow() == 0);
+        Assert.assertTrue(sheet.getMergedRegions().get(0).getFirstColumn() == 2);
+        Assert.assertTrue(sheet.getMergedRegions().get(0).getLastColumn() == 3);
+
 
         workBook.write("target/excel/manual/merge/merge_horizon_01");
     }
@@ -46,6 +53,16 @@ public class MergeCellTest {
         sheet.createCellToNewline("melpis", "36", "010-1111-1234", "02-4221-1234");
         sheet.createCellToNewline("heeseob", "32", "010-0000-1234", "-");
         sheet.createCellToNewline("dongjun", "31", "010-4324-1234", "031-4121-1234");
+
+        Assert.assertTrue(sheet.getMergedRegions().size() == 3);
+
+        Assert.assertTrue(sheet.getMergedRegions().get(0).getFirstRow() == 0 && sheet.getMergedRegions().get(0).getLastRow() == 1);
+        Assert.assertTrue(sheet.getMergedRegions().get(0).getFirstColumn() == 0 && sheet.getMergedRegions().get(0).getLastColumn() == 0);
+        Assert.assertTrue(sheet.getMergedRegions().get(1).getFirstRow() == 0 && sheet.getMergedRegions().get(1).getLastRow() == 1);
+        Assert.assertTrue(sheet.getMergedRegions().get(1).getFirstColumn() == 1 && sheet.getMergedRegions().get(1).getLastColumn() == 1);
+
+        Assert.assertTrue(sheet.getMergedRegions().get(2).getFirstRow() == 0 && sheet.getMergedRegions().get(2).getLastRow() == 0);
+        Assert.assertTrue(sheet.getMergedRegions().get(2).getFirstColumn() == 2 && sheet.getMergedRegions().get(2).getLastColumn() == 3);
 
         workBook.write("target/excel/manual/merge/merge_horizon_02");
     }

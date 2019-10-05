@@ -15,6 +15,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -68,6 +69,15 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
         }
         this.cellPosition = new CellPosition(_sheet);
     }
+
+    public ToWorkSheet(@NonNull ToWorkBook toWorkBook, @NonNull Sheet _sheet) {
+        this.workBook = toWorkBook;
+        this._wb = _sheet.getWorkbook();
+        this._sheet = _sheet;
+        this.name = _sheet.getSheetName();
+        this.cellPosition = new CellPosition(_sheet);
+    }
+
 
     /**
      * Create title cell list.
@@ -161,7 +171,7 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
                 keyset.add(new ToTitleKey(field, existTitles));
             }
         }
-        List<Map<String, Object>> proxyMapList = IntStream.range(titleRow.getRowNum() + 1, this._sheet.getLastRowNum())
+        List<Map<String, Object>> proxyMapList = IntStream.range(titleRow.getRowNum() + 1, this._sheet.getLastRowNum() + 1)
                 .mapToObj(this._sheet::getRow).map(row -> rowToMap(row, excelTitleMap, keyset)).collect(Collectors.toList());
 
         return proxyMapList.stream().map(map -> ModelMapperGenerator.enableFieldModelMapper().map(map, type)).collect(Collectors.toList());
@@ -219,6 +229,25 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
         for (Object o : list) {
             writeObject(o, keys);
         }
+    }
+
+    public Cell getCell(int rowIdx, int cellIdx) {
+        return this.cellPosition.getCell(rowIdx, cellIdx);
+    }
+
+    public List<CellRangeAddress> getMergedRegions() {
+        if (this._sheet.getNumMergedRegions() < 1) {
+            return new ArrayList<>();
+        }
+
+        return IntStream.range(0, this._sheet.getNumMergedRegions()).mapToObj(i -> this._sheet.getMergedRegion(i)).collect(Collectors.toList());
+    }
+
+    public int getRowCount() {
+        if(this._sheet.getLastRowNum() == 0 && this._sheet.getRow(0) == null){
+            return 0;
+        }
+        return this._sheet.getLastRowNum()+1;
     }
 
     private void writeObject(Object obj, List<ToTitleKey> keys) {

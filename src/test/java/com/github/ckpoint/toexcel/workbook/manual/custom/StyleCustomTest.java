@@ -1,12 +1,14 @@
-package com.github.ckpoint.toexcel.workbook.manual;
+package com.github.ckpoint.toexcel.workbook.manual.custom;
 
 import com.github.ckpoint.toexcel.core.ToWorkBook;
 import com.github.ckpoint.toexcel.core.ToWorkSheet;
 import com.github.ckpoint.toexcel.core.style.ToWorkBookStyle;
 import com.github.ckpoint.toexcel.core.type.SheetDirection;
 import com.github.ckpoint.toexcel.core.type.WorkBookType;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -30,6 +32,10 @@ public class StyleCustomTest {
             sheet.createCell(toWorkBookStyle, "희섭" + i, 1 + i);
             sheet.newLine();
         });
+
+        Cell cell = sheet.getCell(0, 1);
+        Assert.assertTrue(cell.getStringCellValue().equals("희섭0"));
+        Assert.assertTrue(cell.getCellStyle().getFillForegroundColor() == IndexedColors.BLUE.getIndex());
 
         workBook.write("target/excel/manual/custom/custom_style_01.xls");
 

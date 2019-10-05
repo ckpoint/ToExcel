@@ -153,6 +153,10 @@ public class CellPosition {
         return mergeCellList;
     }
 
+    public Cell getCell(int rowIdx, int cellIdx) {
+        return this._sheet.getRow(rowIdx) == null ? null : this._sheet.getRow(rowIdx).getCell(cellIdx);
+    }
+
     private void cellCountPlus() {
         if (SheetDirection.HORIZON.equals(this.sheetDirection)) {
             this.cellPosition++;

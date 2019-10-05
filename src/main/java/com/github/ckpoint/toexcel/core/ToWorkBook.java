@@ -168,7 +168,7 @@ public class ToWorkBook {
     }
 
     private void __initSheet() {
-        this.sheets = IntStream.range(0, this._wb.getNumberOfSheets()).mapToObj(this._wb::getSheetAt).map(sheet -> new ToWorkSheet(this, this._wb)).collect(Collectors.toList());
+        this.sheets = IntStream.range(0, this._wb.getNumberOfSheets()).mapToObj(this._wb::getSheetAt).map(sheet -> new ToWorkSheet(this, sheet)).collect(Collectors.toList());
     }
 
 
