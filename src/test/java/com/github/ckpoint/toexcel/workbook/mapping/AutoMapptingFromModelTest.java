@@ -3,7 +3,8 @@ package com.github.ckpoint.toexcel.workbook.mapping;
 import com.github.ckpoint.toexcel.core.ToWorkBook;
 import com.github.ckpoint.toexcel.core.ToWorkSheet;
 import com.github.ckpoint.toexcel.core.type.WorkBookType;
-import com.github.ckpoint.toexcel.workbook.model.UserModel;
+import com.github.ckpoint.toexcel.workbook.common.model.UserModel;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -22,6 +23,17 @@ public class AutoMapptingFromModelTest {
         ToWorkBook workBook = new ToWorkBook(WorkBookType.XSSF);
         ToWorkSheet sheet = workBook.createSheet();
         sheet.from(userModelList);
+
+        Assert.assertTrue(sheet.getCell(0, 0).getStringCellValue().equalsIgnoreCase("name"));
+        Assert.assertTrue(sheet.getCell(0, 1).getStringCellValue().equalsIgnoreCase("age"));
+        Assert.assertTrue(sheet.getCell(0, 2).getStringCellValue().equalsIgnoreCase("gender"));
+
+        Assert.assertTrue(sheet.getCell(1, 0).getStringCellValue().equalsIgnoreCase("tester0"));
+        Assert.assertTrue(sheet.getCell(1, 1).getStringCellValue().equalsIgnoreCase("0"));
+        Assert.assertTrue(sheet.getCell(1, 2).getStringCellValue().equalsIgnoreCase("man"));
+
+        Assert.assertTrue(sheet.getRowCount() == 101);
+
 
         workBook.write("target/excel/map/write_test_1");
 
