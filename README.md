@@ -3,7 +3,7 @@
 
 This is a library that makes Excel easier to use in Java.
 
-To-Excel depends on  [Apache POI](https://poi.apache.org), [Model Mapper](https://github.com/modelmapper/modelmapper), [Project Lombok](http://projectlombok.org/)
+To-Excel depends on  [Apache POI](https://poi.apache.org), [Model Mapper](https://github.com/modelmapper/modelmapper)
 
 
 # Installation
