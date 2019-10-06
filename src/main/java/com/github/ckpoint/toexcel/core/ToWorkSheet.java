@@ -164,7 +164,7 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
         List<String> existTitles = IntStream.range(0, titleRow.getLastCellNum()).mapToObj(titleRow::getCell)
                 .map(Cell::getStringCellValue).collect(Collectors.toList());
 
-        Field[] fields = type.getDeclaredFields();
+        List<Field> fields = getDeclaredFields(type);
         Set<ToTitleKey> keyset = new HashSet<>();
         for (Field field : fields) {
             if (field.getAnnotation(ExcelHeader.class) != null) {
@@ -175,6 +175,14 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
                 .mapToObj(this._sheet::getRow).map(row -> rowToMap(row, excelTitleMap, keyset)).collect(Collectors.toList());
 
         return proxyMapList.stream().map(map -> ModelMapperGenerator.enableFieldModelMapper().map(map, type)).collect(Collectors.toList());
+    }
+
+    private List<Field> getDeclaredFields(Class type){
+        List<Field> fields = Arrays.stream(type.getDeclaredFields()).collect(Collectors.toList());
+        if(type.getSuperclass() != null  && !type.getSuperclass().equals(Object.class)){
+            fields.addAll(getDeclaredFields(type.getSuperclass()));
+        }
+        return fields;
     }
 
     /**
@@ -222,8 +230,8 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
         this.clear();
 
         Object obj = list.get(0);
-        Field[] fields = obj.getClass().getDeclaredFields();
-        List<ToTitleKey> keys = Arrays.stream(fields).filter(field -> field.getAnnotation(ExcelHeader.class) != null)
+        List<Field> fields = getDeclaredFields(obj.getClass());
+        List<ToTitleKey> keys = fields.stream().filter(field -> field.getAnnotation(ExcelHeader.class) != null)
                 .map(ToTitleKey::new).sorted().collect(Collectors.toList());
         keys.forEach(key -> this.createTitleCell(1, key.getHeader().headerName()));
         for (Object o : list) {

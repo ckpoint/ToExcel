@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 @Getter
 @NoArgsConstructor
-public class UserModel {
+public class UserModel extends CommonModel{
 
     @ExcelHeader(headerName = "name", headerNames = {"닉네임", "이메일", "email"}, priority = 0)
     private String name;
@@ -21,6 +21,7 @@ public class UserModel {
 
     @Builder
     public UserModel(String name, Integer age, String gender) {
+        this.setId(name+"/"+age);
         this.name = name;
         this.age = age;
         this.gender = gender;
