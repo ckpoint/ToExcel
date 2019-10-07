@@ -60,7 +60,7 @@ public class UserModel {
 ### step2) Create ToWorkBook and ToWorkSheet instance
 
 ```java
-   ToWorkBook toWorkBook = new ToWorkBook("target/excel/map/read_test_1.xlsx");
+   ToWorkBook toWorkBook = new ToWorkBook(new File("target/excel/map/read_test_1.xlsx"));
    ToWorkSheet toWorkSheet = toWorkBook.getSheetAt(0);
 ```
 
