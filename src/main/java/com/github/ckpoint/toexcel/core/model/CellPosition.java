@@ -165,7 +165,7 @@ public class CellPosition {
         if (cell == null){
             throw new CellNotFoundException("Not found cell index " + cellIdx);
         }
-        return this._sheet.getRow(rowIdx).getCell(cellIdx);
+        return cell;
     }
 
     private void cellCountPlus() {
