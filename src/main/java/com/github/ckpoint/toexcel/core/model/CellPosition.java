@@ -1,6 +1,9 @@
 package com.github.ckpoint.toexcel.core.model;
 
 import com.github.ckpoint.toexcel.core.type.SheetDirection;
+import com.github.ckpoint.toexcel.exception.CellNotFoundException;
+import com.github.ckpoint.toexcel.exception.RowNotFoundException;
+import com.sun.istack.internal.NotNull;
 import lombok.NonNull;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -153,8 +156,16 @@ public class CellPosition {
         return mergeCellList;
     }
 
-    public Cell getCell(int rowIdx, int cellIdx) {
-        return this._sheet.getRow(rowIdx) == null ? null : this._sheet.getRow(rowIdx).getCell(cellIdx);
+    public Cell getCell(@NotNull int rowIdx, @NotNull int cellIdx) {
+        Row row = this._sheet.getRow(rowIdx);
+        if (row == null){
+            throw new RowNotFoundException("Not found row index " + rowIdx);
+        }
+        Cell cell = row.getCell(cellIdx);
+        if (cell == null){
+            throw new CellNotFoundException("Not found cell index " + cellIdx);
+        }
+        return this._sheet.getRow(rowIdx).getCell(cellIdx);
     }
 
     private void cellCountPlus() {

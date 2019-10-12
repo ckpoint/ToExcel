@@ -6,6 +6,8 @@ import com.github.ckpoint.toexcel.core.model.ToTitleKey;
 import com.github.ckpoint.toexcel.core.style.ToWorkBookStyle;
 import com.github.ckpoint.toexcel.core.type.SheetDirection;
 import com.github.ckpoint.toexcel.core.type.ToWorkCellType;
+import com.github.ckpoint.toexcel.core.type.WorkBookType;
+import com.github.ckpoint.toexcel.exception.SheetNotFoundException;
 import com.github.ckpoint.toexcel.util.ExcelHeaderHelper;
 import com.github.ckpoint.toexcel.util.ModelMapperGenerator;
 import com.github.ckpoint.toexcel.util.TitleRowHelper;
@@ -177,9 +179,9 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
         return proxyMapList.stream().map(map -> ModelMapperGenerator.enableFieldModelMapper().map(map, type)).collect(Collectors.toList());
     }
 
-    private List<Field> getDeclaredFields(Class type){
+    private List<Field> getDeclaredFields(Class type) {
         List<Field> fields = Arrays.stream(type.getDeclaredFields()).collect(Collectors.toList());
-        if(type.getSuperclass() != null  && !type.getSuperclass().equals(Object.class)){
+        if (type.getSuperclass() != null && !type.getSuperclass().equals(Object.class)) {
             fields.addAll(getDeclaredFields(type.getSuperclass()));
         }
         return fields;
@@ -224,7 +226,7 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
      */
     public void from(List list) {
         if (list == null || list.isEmpty()) {
-            return;
+            throw new SheetNotFoundException("Not found sheet list");
         }
 
         this.clear();
@@ -239,7 +241,7 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
         }
     }
 
-    public Cell getCell(int rowIdx, int cellIdx) {
+    public Cell getCell(@NonNull int rowIdx, @NonNull int cellIdx) {
         return this.cellPosition.getCell(rowIdx, cellIdx);
     }
 
@@ -252,10 +254,10 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
     }
 
     public int getRowCount() {
-        if(this._sheet.getLastRowNum() == 0 && this._sheet.getRow(0) == null){
+        if (this._sheet.getLastRowNum() == 0 && this._sheet.getRow(0) == null) {
             return 0;
         }
-        return this._sheet.getLastRowNum()+1;
+        return this._sheet.getLastRowNum() + 1;
     }
 
     private void writeObject(Object obj, List<ToTitleKey> keys) {

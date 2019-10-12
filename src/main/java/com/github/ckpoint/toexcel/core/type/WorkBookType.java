@@ -78,7 +78,7 @@ public enum WorkBookType {
         if (_fp.lastIndexOf(".") > 0) {
             _fp = _fp.substring(0, _fp.indexOf("."));
         }
-        return _fp + "."+ this.ext;
+        return _fp + "." + this.ext;
     }
 
 
