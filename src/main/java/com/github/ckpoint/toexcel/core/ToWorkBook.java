@@ -2,6 +2,7 @@ package com.github.ckpoint.toexcel.core;
 
 import com.github.ckpoint.toexcel.core.style.ToWorkBookStyle;
 import com.github.ckpoint.toexcel.core.type.WorkBookType;
+import com.github.ckpoint.toexcel.exception.SheetNotFoundException;
 import lombok.Getter;
 import lombok.NonNull;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -146,7 +147,7 @@ public class ToWorkBook {
      * @return the sheet
      */
     public ToWorkSheet getSheet(@NonNull String name) {
-        return this.sheets.stream().filter(st -> name.equalsIgnoreCase(st.getName())).findFirst().orElse(null);
+        return this.sheets.stream().filter(st -> name.equalsIgnoreCase(st.getName())).findFirst().orElseThrow(() -> new SheetNotFoundException("Not found sheet " + name));
     }
 
     /**
@@ -168,7 +169,8 @@ public class ToWorkBook {
     }
 
     private void __initSheet() {
-        this.sheets = IntStream.range(0, this._wb.getNumberOfSheets()).mapToObj(this._wb::getSheetAt).map(sheet -> new ToWorkSheet(this, sheet)).collect(Collectors.toList());
+        this.sheets = IntStream.range(0, this._wb.getNumberOfSheets()).mapToObj(this._wb::getSheetAt)
+                .map(sheet -> new ToWorkSheet(this, sheet)).collect(Collectors.toList());
     }
 
 
