@@ -1,6 +1,7 @@
 package com.github.ckpoint.toexcel.core.model;
 
 import com.github.ckpoint.toexcel.annotation.ExcelHeader;
+import com.github.ckpoint.toexcel.core.converter.ExcelHeaderConverter;
 import com.github.ckpoint.toexcel.util.ExcelHeaderHelper;
 import lombok.Getter;
 import lombok.NonNull;
@@ -17,18 +18,18 @@ public class ToTitleKey implements ExcelHeaderHelper, Comparable<ToTitleKey> {
     private String key;
     private String viewName;
     private ExcelHeader header;
-    private Field field ;
+    private Field field;
 
     /**
      * Instantiates a new To title key.
      *
      * @param field the field
      */
-    public ToTitleKey(@NonNull Field field) {
+    public ToTitleKey(@NonNull Field field, ExcelHeaderConverter excelHeaderConverter) {
         this.field = field;
         this.key = field.getName();
         this.header = field.getAnnotation(ExcelHeader.class);
-        this.viewName = this.header.headerName();
+        this.viewName = excelHeaderConverter.headerKeyConverter(this.header);
     }
 
     /**
@@ -37,11 +38,11 @@ public class ToTitleKey implements ExcelHeaderHelper, Comparable<ToTitleKey> {
      * @param field  the field
      * @param titles the titles
      */
-    public ToTitleKey(Field field, List<String> titles) {
+    public ToTitleKey(Field field, List<String> titles, ExcelHeaderConverter excelHeaderConverter) {
         this.field = field;
         this.key = field.getName();
         ExcelHeader header = field.getAnnotation(ExcelHeader.class);
-        List<String> headerStrs = headerList(header);
+        List<String> headerStrs = headerList(header, excelHeaderConverter);
         this.viewName = headerStrs.stream().filter(titles::contains).findFirst().orElse(key);
     }
 
@@ -64,16 +65,18 @@ public class ToTitleKey implements ExcelHeaderHelper, Comparable<ToTitleKey> {
      *
      * @return the int
      */
-    public int priority(){
-        if(this.header == null){ return 0; }
+    public int priority() {
+        if (this.header == null) {
+            return 0;
+        }
         return this.header.priority();
     }
 
     @Override
     public int compareTo(ToTitleKey o) {
 
-        if(o.priority() != this.priority()){
-           return priority() - o.priority();
+        if (o.priority() != this.priority()) {
+            return priority() - o.priority();
         }
         return this.viewName.compareTo(o.viewName);
     }

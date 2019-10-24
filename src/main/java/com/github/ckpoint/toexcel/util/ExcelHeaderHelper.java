@@ -1,6 +1,7 @@
 package com.github.ckpoint.toexcel.util;
 
 import com.github.ckpoint.toexcel.annotation.ExcelHeader;
+import com.github.ckpoint.toexcel.core.converter.ExcelHeaderConverter;
 import lombok.NonNull;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -52,9 +53,9 @@ public interface ExcelHeaderHelper {
      * @param header the header
      * @return the list
      */
-    default List<String> headerList(@NonNull ExcelHeader header) {
+    default List<String> headerList(@NonNull ExcelHeader header, ExcelHeaderConverter excelHeaderConverter) {
         List<String> headers = new ArrayList<>();
-        headers.add(header.headerName());
+        headers.add(excelHeaderConverter.headerKeyConverter(header));
         headers.addAll(Arrays.asList(header.headerNames()));
 
         return headers.stream().filter(Objects::nonNull).map(String::trim).filter(hd -> !hd.isEmpty()).collect(Collectors.toList());

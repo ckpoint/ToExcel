@@ -1,12 +1,13 @@
 package com.github.ckpoint.toexcel.core;
 
 import com.github.ckpoint.toexcel.annotation.ExcelHeader;
+import com.github.ckpoint.toexcel.core.converter.ExcelHeaderConverter;
+import com.github.ckpoint.toexcel.core.converter.ExcelHeaderDefatulConverter;
 import com.github.ckpoint.toexcel.core.model.CellPosition;
 import com.github.ckpoint.toexcel.core.model.ToTitleKey;
 import com.github.ckpoint.toexcel.core.style.ToWorkBookStyle;
 import com.github.ckpoint.toexcel.core.type.SheetDirection;
 import com.github.ckpoint.toexcel.core.type.ToWorkCellType;
-import com.github.ckpoint.toexcel.core.type.WorkBookType;
 import com.github.ckpoint.toexcel.exception.SheetNotFoundException;
 import com.github.ckpoint.toexcel.util.ExcelHeaderHelper;
 import com.github.ckpoint.toexcel.util.ModelMapperGenerator;
@@ -38,6 +39,8 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
     private final String name;
     private final Workbook _wb;
     private final CellPosition cellPosition;
+
+    private ExcelHeaderConverter __excelHeaderConverter = new ExcelHeaderDefatulConverter();
 
     private Sheet _sheet;
 
@@ -80,6 +83,10 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
         this.cellPosition = new CellPosition(_sheet);
     }
 
+    public ToWorkSheet updateHeaderExcelConverter(ExcelHeaderConverter excelHeaderConverter){
+       this.__excelHeaderConverter = excelHeaderConverter;
+       return this;
+    }
 
     /**
      * Create title cell list.
@@ -155,8 +162,8 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
      * @param type the type
      * @return the list
      */
-    public <T> List<T> map(Class<T> type) {
-        Row titleRow = findTitleRow(type, this._sheet);
+    public <T> List<T> map(Class<T> type ) {
+        Row titleRow = findTitleRow(type, this._sheet, this.__excelHeaderConverter);
 
         Map<Integer, String> excelTitleMap = new HashMap<>();
         for (int i = 0; i < titleRow.getLastCellNum(); i++) {
@@ -170,7 +177,7 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
         Set<ToTitleKey> keyset = new HashSet<>();
         for (Field field : fields) {
             if (field.getAnnotation(ExcelHeader.class) != null) {
-                keyset.add(new ToTitleKey(field, existTitles));
+                keyset.add(new ToTitleKey(field, existTitles, __excelHeaderConverter));
             }
         }
         List<Map<String, Object>> proxyMapList = IntStream.range(titleRow.getRowNum() + 1, this._sheet.getLastRowNum() + 1)
@@ -224,7 +231,7 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
      *
      * @param list the list
      */
-    public void from(List list) {
+    public void from(List list ) {
         if (list == null || list.isEmpty()) {
             throw new SheetNotFoundException("Not found sheet list");
         }
@@ -234,7 +241,7 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
         Object obj = list.get(0);
         List<Field> fields = getDeclaredFields(obj.getClass());
         List<ToTitleKey> keys = fields.stream().filter(field -> field.getAnnotation(ExcelHeader.class) != null)
-                .map(ToTitleKey::new).sorted().collect(Collectors.toList());
+                .map(field -> new ToTitleKey(field, __excelHeaderConverter)).sorted().collect(Collectors.toList());
         keys.forEach(key -> this.createTitleCell(1, key.getHeader().headerName()));
         for (Object o : list) {
             writeObject(o, keys);

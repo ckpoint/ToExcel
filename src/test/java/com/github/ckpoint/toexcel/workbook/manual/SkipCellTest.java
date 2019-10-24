@@ -29,7 +29,6 @@ public class SkipCellTest {
         Assert.assertTrue(sheet.getCell(2, 0).getStringCellValue().isEmpty());
         Assert.assertTrue(sheet.getCell(1, 1).getStringCellValue().equals("희섭0"));
 
-        Assert.assertTrue(sheet.getCell(0, 2) == null);
         Assert.assertTrue(sheet.getCell(1, 2) != null);
         Assert.assertTrue(sheet.getCell(2, 2) != null);
 
@@ -55,7 +54,6 @@ public class SkipCellTest {
         Assert.assertTrue(sheet.getCell(1, 1).getStringCellValue().equals("희섭0"));
         Assert.assertTrue(sheet.getCell(1, 2).getStringCellValue().equals("희섭1"));
 
-        Assert.assertTrue(sheet.getCell(2, 0) == null);
         Assert.assertTrue(sheet.getCell(0, 1) != null);
         Assert.assertTrue(sheet.getCell(0, 2) != null);
 

@@ -3,7 +3,6 @@ package com.github.ckpoint.toexcel.core.model;
 import com.github.ckpoint.toexcel.core.type.SheetDirection;
 import com.github.ckpoint.toexcel.exception.CellNotFoundException;
 import com.github.ckpoint.toexcel.exception.RowNotFoundException;
-import com.sun.istack.internal.NotNull;
 import lombok.NonNull;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -20,10 +19,10 @@ import java.util.stream.IntStream;
  */
 public class CellPosition {
 
+    private final Sheet _sheet;
     private int rowPosition;
     private int cellPosition;
     private SheetDirection sheetDirection;
-    private final Sheet _sheet;
 
     /**
      * Instantiates a new Cell position.
@@ -156,13 +155,13 @@ public class CellPosition {
         return mergeCellList;
     }
 
-    public Cell getCell(@NotNull int rowIdx, @NotNull int cellIdx) {
+    public Cell getCell(@NonNull int rowIdx, @NonNull int cellIdx) {
         Row row = this._sheet.getRow(rowIdx);
-        if (row == null){
+        if (row == null) {
             throw new RowNotFoundException("Not found row index " + rowIdx);
         }
         Cell cell = row.getCell(cellIdx);
-        if (cell == null){
+        if (cell == null) {
             throw new CellNotFoundException("Not found cell index " + cellIdx);
         }
         return cell;

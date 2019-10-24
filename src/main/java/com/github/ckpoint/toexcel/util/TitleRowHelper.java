@@ -1,6 +1,7 @@
 package com.github.ckpoint.toexcel.util;
 
 import com.github.ckpoint.toexcel.annotation.ExcelHeader;
+import com.github.ckpoint.toexcel.core.converter.ExcelHeaderConverter;
 import lombok.NonNull;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -25,11 +26,11 @@ public interface TitleRowHelper extends ExcelHeaderHelper {
      * @param sheet the sheet
      * @return the row
      */
-    default Row findTitleRow(@NonNull Class type, @NonNull Sheet sheet) {
+    default Row findTitleRow(@NonNull Class type, @NonNull Sheet sheet, @NonNull ExcelHeaderConverter excelHeaderConverter) {
 
         Field[] fields = type.getDeclaredFields();
         List<String> titles = new ArrayList<>();
-        Arrays.stream(fields).map(fd -> fd.getAnnotation(ExcelHeader.class)).filter(Objects::nonNull).map(this::headerList).forEach(titles::addAll);
+        Arrays.stream(fields).map(fd -> fd.getAnnotation(ExcelHeader.class)).filter(Objects::nonNull).map( fd -> headerList(fd, excelHeaderConverter)).forEach(titles::addAll);
 
         int maxSearchRow = sheet.getLastRowNum() < 100 ? sheet.getLastRowNum() : 100;
         int maxCnt = 0;

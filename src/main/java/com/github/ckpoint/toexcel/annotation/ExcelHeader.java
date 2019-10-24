@@ -4,6 +4,7 @@ import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 
 import java.lang.annotation.*;
+import java.util.function.Function;
 
 
 /**
@@ -55,5 +56,4 @@ public @interface ExcelHeader {
      * @return the vertical alignment
      */
     VerticalAlignment verticalAlignment() default VerticalAlignment.CENTER;
-
 }
