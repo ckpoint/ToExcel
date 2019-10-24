@@ -63,11 +63,14 @@ public interface TitleRowHelper extends ExcelHeaderHelper {
             if (cell == null) {
                 continue;
             }
-            String cellStr = cell.getStringCellValue();
-            if (cellStr == null) {
-                continue;
+
+            if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+                String cellStr = cell.getStringCellValue();
+                if (cellStr == null) {
+                    continue;
+                }
+                count += titles.contains(cellStr.trim()) ? 1 : 0;
             }
-            count += titles.contains(cellStr.trim()) ? 1 : 0;
         }
         return count;
     }
