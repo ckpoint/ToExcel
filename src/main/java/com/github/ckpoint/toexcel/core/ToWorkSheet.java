@@ -242,7 +242,7 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
         List<Field> fields = getDeclaredFields(obj.getClass());
         List<ToTitleKey> keys = fields.stream().filter(field -> field.getAnnotation(ExcelHeader.class) != null)
                 .map(field -> new ToTitleKey(field, __excelHeaderConverter)).sorted().collect(Collectors.toList());
-        keys.forEach(key -> this.createTitleCell(1, key.getHeader().headerName()));
+        keys.forEach(key -> this.createTitleCell(1, key.getViewName()));
         for (Object o : list) {
             writeObject(o, keys);
         }

@@ -3,18 +3,37 @@ package com.github.ckpoint.toexcel.workbook.manual.normal;
 import com.github.ckpoint.toexcel.core.ToWorkBook;
 import com.github.ckpoint.toexcel.core.ToWorkSheet;
 import com.github.ckpoint.toexcel.core.type.WorkBookType;
+import com.github.ckpoint.toexcel.workbook.common.model.UserModel;
 import org.apache.poi.poifs.filesystem.OfficeXmlFileException;
 import org.junit.Assert;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.junit.Assert.fail;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CommonWorkbookTest {
+
+    @Test
+    public void a_userModelsToExcelWriteTest_01() throws IOException {
+        List<UserModel> userModelList =
+                IntStream.range(0, 100).mapToObj(i ->
+                        UserModel.builder().name("tester" + i).age(i).gender("man").build()).collect(Collectors.toList());
+
+        ToWorkBook workBook = new ToWorkBook(WorkBookType.XSSF);
+        ToWorkSheet sheet = workBook.createSheet();
+        sheet.from(userModelList);
+        workBook.write("target/excel/map/read_test_1");
+    }
 
     @Test
     public void create_workbook_with_type_and_fis_test() throws IOException {

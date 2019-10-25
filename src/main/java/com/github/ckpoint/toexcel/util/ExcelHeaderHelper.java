@@ -55,7 +55,10 @@ public interface ExcelHeaderHelper {
      */
     default List<String> headerList(@NonNull ExcelHeader header, ExcelHeaderConverter excelHeaderConverter) {
         List<String> headers = new ArrayList<>();
-        headers.add(excelHeaderConverter.headerKeyConverter(header));
+        headers.add(header.headerName());
+        if (!header.headerName().equals(excelHeaderConverter.headerKeyConverter(header))) {
+            headers.add(excelHeaderConverter.headerKeyConverter(header));
+        }
         headers.addAll(Arrays.asList(header.headerNames()));
 
         return headers.stream().filter(Objects::nonNull).map(String::trim).filter(hd -> !hd.isEmpty()).collect(Collectors.toList());
