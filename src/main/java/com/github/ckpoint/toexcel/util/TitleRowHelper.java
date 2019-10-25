@@ -63,6 +63,8 @@ public interface TitleRowHelper extends ExcelHeaderHelper {
             if (cell == null) {
                 continue;
             }
+            if( cell.getCellType() != Cell.CELL_TYPE_STRING){ continue; }
+
             String cellStr = cell.getStringCellValue();
             if (cellStr == null) {
                 continue;

@@ -19,17 +19,19 @@ public class ToTitleKey implements ExcelHeaderHelper, Comparable<ToTitleKey> {
     private String viewName;
     private ExcelHeader header;
     private Field field;
+    private int priority;
 
     /**
      * Instantiates a new To title key.
      *
      * @param field the field
      */
-    public ToTitleKey(@NonNull Field field, ExcelHeaderConverter excelHeaderConverter) {
+    public ToTitleKey(@NonNull Field field, int fieldIdx, ExcelHeaderConverter excelHeaderConverter) {
         this.field = field;
         this.key = field.getName();
         this.header = field.getAnnotation(ExcelHeader.class);
         this.viewName = excelHeaderConverter.headerKeyConverter(this.header);
+        this.priority = fieldIdx + (priority * 1000);
     }
 
     /**
@@ -60,23 +62,12 @@ public class ToTitleKey implements ExcelHeaderHelper, Comparable<ToTitleKey> {
         return title.trim().equalsIgnoreCase(viewName.trim());
     }
 
-    /**
-     * Priority int.
-     *
-     * @return the int
-     */
-    public int priority() {
-        if (this.header == null) {
-            return 0;
-        }
-        return this.header.priority();
-    }
 
     @Override
     public int compareTo(ToTitleKey o) {
 
-        if (o.priority() != this.priority()) {
-            return priority() - o.priority();
+        if (o.priority != this.priority) {
+            return priority - o.priority;
         }
         return this.viewName.compareTo(o.viewName);
     }

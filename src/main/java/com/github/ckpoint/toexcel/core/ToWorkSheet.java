@@ -22,6 +22,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -83,9 +84,9 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
         this.cellPosition = new CellPosition(_sheet);
     }
 
-    public ToWorkSheet updateHeaderExcelConverter(ExcelHeaderConverter excelHeaderConverter){
-       this.__excelHeaderConverter = excelHeaderConverter;
-       return this;
+    public ToWorkSheet updateHeaderExcelConverter(ExcelHeaderConverter excelHeaderConverter) {
+        this.__excelHeaderConverter = excelHeaderConverter;
+        return this;
     }
 
     /**
@@ -162,7 +163,7 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
      * @param type the type
      * @return the list
      */
-    public <T> List<T> map(Class<T> type ) {
+    public <T> List<T> map(Class<T> type) {
         Row titleRow = findTitleRow(type, this._sheet, this.__excelHeaderConverter);
 
         Map<Integer, String> excelTitleMap = new HashMap<>();
@@ -231,7 +232,7 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
      *
      * @param list the list
      */
-    public void from(List list ) {
+    public void from(List list) {
         if (list == null || list.isEmpty()) {
             throw new SheetNotFoundException("Not found sheet list");
         }
@@ -240,8 +241,10 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
 
         Object obj = list.get(0);
         List<Field> fields = getDeclaredFields(obj.getClass());
+        AtomicInteger fieldCount = new AtomicInteger();
         List<ToTitleKey> keys = fields.stream().filter(field -> field.getAnnotation(ExcelHeader.class) != null)
-                .map(field -> new ToTitleKey(field, __excelHeaderConverter)).sorted().collect(Collectors.toList());
+                .map(field -> new ToTitleKey(field, fieldCount.getAndIncrement(), __excelHeaderConverter))
+                .sorted().collect(Collectors.toList());
         keys.forEach(key -> this.createTitleCell(1, key.getViewName()));
         for (Object o : list) {
             writeObject(o, keys);
@@ -314,6 +317,14 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
                 return cell.getNumericCellValue();
             case Cell.CELL_TYPE_BOOLEAN:
                 return cell.getBooleanCellValue();
+            case Cell.CELL_TYPE_FORMULA:
+                return cell.getCachedFormulaResultType();
+
+            case Cell.CELL_TYPE_BLANK:
+            case Cell.CELL_TYPE_ERROR:
+                return "";
+
+            case Cell.CELL_TYPE_STRING:
             default:
                 return cell.getStringCellValue();
         }
