@@ -6,7 +6,7 @@
 
     <groupId>com.github.ckpoint</groupId>
     <artifactId>toexcel</artifactId>
-    <version>0.9.2</version>
+    <version>0.9.3</version>
     <packaging>jar</packaging>
     <name>TOExcel</name>
     <description>This is a library that makes Excel easier to use in Java. </description>

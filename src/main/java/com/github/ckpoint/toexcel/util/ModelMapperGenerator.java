@@ -1,5 +1,9 @@
 package com.github.ckpoint.toexcel.util;
 
+import com.github.ckpoint.toexcel.util.mapper.DoubleToDateConverter;
+import com.github.ckpoint.toexcel.util.mapper.DoubleToStringConverter;
+import com.github.ckpoint.toexcel.util.mapper.StringToDateConverter;
+import com.github.ckpoint.toexcel.util.mapper.StringToStringConverter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.config.Configuration;
 import org.modelmapper.convention.MatchingStrategies;
@@ -15,7 +19,13 @@ public class ModelMapperGenerator {
      * @return the model mapper
      */
     public static ModelMapper defaultModelMapper() {
-        return new ModelMapper();
+
+        ModelMapper mapper = new ModelMapper();
+        mapper.addConverter(new DoubleToDateConverter());
+        mapper.addConverter(new StringToDateConverter());
+        mapper.addConverter(new StringToStringConverter());
+        mapper.addConverter(new DoubleToStringConverter());
+        return mapper;
     }
 
     /**

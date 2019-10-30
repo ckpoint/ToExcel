@@ -168,10 +168,11 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
 
         Map<Integer, String> excelTitleMap = new HashMap<>();
         for (int i = 0; i < titleRow.getLastCellNum(); i++) {
-            excelTitleMap.put(i, titleRow.getCell(i).getStringCellValue());
+            excelTitleMap.put(i, titleRow.getCell(i) != null ?titleRow.getCell(i).getStringCellValue() : "");
         }
 
         List<String> existTitles = IntStream.range(0, titleRow.getLastCellNum()).mapToObj(titleRow::getCell)
+                .filter(Objects::nonNull)
                 .map(Cell::getStringCellValue).collect(Collectors.toList());
 
         List<Field> fields = getDeclaredFields(type);
@@ -312,6 +313,9 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
     }
 
     private Object getCellValue(Cell cell) {
+        if( cell == null){
+            return "";
+        }
         switch (cell.getCellType()) {
             case Cell.CELL_TYPE_NUMERIC:
                 return cell.getNumericCellValue();
