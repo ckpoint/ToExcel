@@ -7,6 +7,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+/**
+ * The type Double to date converter.
+ */
 public class DoubleToDateConverter extends AbstractConverter<Double, Date> implements DateConverter {
 
     @Override

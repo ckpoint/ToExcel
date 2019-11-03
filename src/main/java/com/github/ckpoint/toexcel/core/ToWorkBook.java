@@ -43,6 +43,7 @@ public class ToWorkBook {
         this._wb = type.createWorkBookInstance();
     }
 
+
     /**
      * Instantiates a new To work book.
      *
@@ -50,6 +51,17 @@ public class ToWorkBook {
      * @throws IOException the io exception
      */
     public ToWorkBook(@NonNull File file) throws IOException {
+        this(file.getName().endsWith("xls") ? WorkBookType.HSSF : WorkBookType.XSSF, file);
+    }
+
+    /**
+     * Instantiates a new To work book.
+     *
+     * @param type the type
+     * @param file the file
+     * @throws IOException the io exception
+     */
+    public ToWorkBook(@NonNull WorkBookType type, @NonNull File file) throws IOException {
         if (!file.exists() || file.isDirectory()) {
             throw new FileNotFoundException();
         }

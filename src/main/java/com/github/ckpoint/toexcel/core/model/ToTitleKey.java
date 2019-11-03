@@ -24,7 +24,9 @@ public class ToTitleKey implements ExcelHeaderHelper, Comparable<ToTitleKey> {
     /**
      * Instantiates a new To title key.
      *
-     * @param field the field
+     * @param field                the field
+     * @param fieldIdx             the field idx
+     * @param excelHeaderConverter the excel header converter
      */
     public ToTitleKey(@NonNull Field field, int fieldIdx, ExcelHeaderConverter excelHeaderConverter) {
         this.field = field;
@@ -37,8 +39,9 @@ public class ToTitleKey implements ExcelHeaderHelper, Comparable<ToTitleKey> {
     /**
      * Instantiates a new To title key.
      *
-     * @param field  the field
-     * @param titles the titles
+     * @param field                the field
+     * @param titles               the titles
+     * @param excelHeaderConverter the excel header converter
      */
     public ToTitleKey(Field field, List<String> titles, ExcelHeaderConverter excelHeaderConverter) {
         this.field = field;

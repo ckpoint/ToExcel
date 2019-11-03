@@ -10,8 +10,16 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+/**
+ * The interface To excel csv converter.
+ */
 public interface ToExcelCsvConverter {
 
+    /**
+     * Convert csv str string.
+     *
+     * @return the string
+     */
     default String convertCsvStr() {
 
         List<Field> fields = getDeclaredFields(this.getClass());
@@ -24,6 +32,12 @@ public interface ToExcelCsvConverter {
         return keys.stream().map(ToTitleKey::getField).map(this::getFieldValue).collect(Collectors.joining(","));
     }
 
+    /**
+     * Gets field value.
+     *
+     * @param fd the fd
+     * @return the field value
+     */
     default String getFieldValue(Field fd) {
         try {
             fd.setAccessible(true);
@@ -37,6 +51,12 @@ public interface ToExcelCsvConverter {
         }
     }
 
+    /**
+     * Gets declared fields.
+     *
+     * @param type the type
+     * @return the declared fields
+     */
     default List<Field> getDeclaredFields(Class type) {
         List<Field> fields = Arrays.stream(type.getDeclaredFields()).collect(Collectors.toList());
         if (type.getSuperclass() != null && !type.getSuperclass().equals(Object.class)) {

@@ -5,6 +5,9 @@ import org.modelmapper.AbstractConverter;
 
 import java.util.Date;
 
+/**
+ * The type String to date converter.
+ */
 public class StringToDateConverter extends AbstractConverter<String, Date> implements DateConverter {
 
     private final String[] formats = {

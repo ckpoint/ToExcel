@@ -22,8 +22,9 @@ public interface TitleRowHelper extends ExcelHeaderHelper {
     /**
      * Find title row row.
      *
-     * @param type  the type
-     * @param sheet the sheet
+     * @param type                 the type
+     * @param sheet                the sheet
+     * @param excelHeaderConverter the excel header converter
      * @return the row
      */
     default Row findTitleRow(@NonNull Class type, @NonNull Sheet sheet, @NonNull ExcelHeaderConverter excelHeaderConverter) {

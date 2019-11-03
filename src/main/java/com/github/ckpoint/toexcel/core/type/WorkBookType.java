@@ -1,5 +1,6 @@
 package com.github.ckpoint.toexcel.core.type;
 
+import com.github.ckpoint.toexcel.exception.NotFoundExtException;
 import lombok.NonNull;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -8,6 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * The enum Work book type.
@@ -39,6 +41,17 @@ public enum WorkBookType {
         }
         return new XSSFWorkbook();
 
+    }
+
+    /**
+     * Find work book type work book type.
+     *
+     * @param ext the ext
+     * @return the work book type
+     */
+    public static WorkBookType findWorkBookType(@NonNull String ext) {
+        return Arrays.stream(WorkBookType.values()).filter(type -> ext.contains(type.ext)).findFirst()
+                .orElseThrow(() -> new NotFoundExtException(ext + " is not supported"));
     }
 
     /**
