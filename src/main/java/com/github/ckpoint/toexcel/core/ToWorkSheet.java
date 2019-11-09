@@ -176,11 +176,15 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
      * @return the list
      */
     public <T> List<T> map(Class<T> type) {
+        return map(type, null);
+    }
+
+    public <T> List<T> map(Class<T> type, Integer maxRowCnt) {
         Row titleRow = findTitleRow(type, this._sheet, this.__excelHeaderConverter);
 
         Map<Integer, String> excelTitleMap = new HashMap<>();
         for (int i = 0; i < titleRow.getLastCellNum(); i++) {
-            excelTitleMap.put(i, titleRow.getCell(i) != null ?titleRow.getCell(i).getStringCellValue() : "");
+            excelTitleMap.put(i, titleRow.getCell(i) != null ? titleRow.getCell(i).getStringCellValue() : "");
         }
 
         List<String> existTitles = IntStream.range(0, titleRow.getLastCellNum()).mapToObj(titleRow::getCell)
@@ -194,10 +198,19 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
                 keyset.add(new ToTitleKey(field, existTitles, __excelHeaderConverter));
             }
         }
-        List<Map<String, Object>> proxyMapList = IntStream.range(titleRow.getRowNum() + 1, this._sheet.getLastRowNum() + 1)
+
+        List<Map<String, Object>> proxyMapList = IntStream.range(titleRow.getRowNum() + 1, getLastDataRowNum(titleRow, maxRowCnt))
                 .mapToObj(this._sheet::getRow).map(row -> rowToMap(row, excelTitleMap, keyset)).collect(Collectors.toList());
 
         return proxyMapList.stream().map(map -> ModelMapperGenerator.enableFieldModelMapper().map(map, type)).collect(Collectors.toList());
+    }
+
+    private int getLastDataRowNum(Row titleRow, Integer maxRowCnt) {
+        if (maxRowCnt == null) {
+            return this._sheet.getLastRowNum() + 1;
+        }
+        int firstDataRow = titleRow.getRowNum() + 1;
+        return firstDataRow + maxRowCnt;
     }
 
     private List<Field> getDeclaredFields(Class type) {
@@ -342,7 +355,7 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
     }
 
     private Object getCellValue(Cell cell) {
-        if( cell == null){
+        if (cell == null) {
             return "";
         }
         switch (cell.getCellType()) {

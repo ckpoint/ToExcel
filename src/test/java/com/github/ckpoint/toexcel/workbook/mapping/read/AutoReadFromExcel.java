@@ -2,7 +2,7 @@ package com.github.ckpoint.toexcel.workbook.mapping.read;
 
 import com.github.ckpoint.toexcel.core.ToWorkBook;
 import com.github.ckpoint.toexcel.core.ToWorkSheet;
-import com.github.ckpoint.toexcel.core.type.WorkBookType;
+import com.github.ckpoint.toexcel.core.type.ToWorkBookType;
 import com.github.ckpoint.toexcel.workbook.common.model.UserModel;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
@@ -24,7 +24,7 @@ public class AutoReadFromExcel {
                 IntStream.range(0, 100).mapToObj(i ->
                         UserModel.builder().name("tester" + i).age(i).gender("man").build()).collect(Collectors.toList());
 
-        ToWorkBook workBook = new ToWorkBook(WorkBookType.XSSF);
+        ToWorkBook workBook = new ToWorkBook(ToWorkBookType.XSSF);
         ToWorkSheet sheet = workBook.createSheet();
         sheet.from(userModelList);
 
@@ -50,6 +50,20 @@ public class AutoReadFromExcel {
         Assert.assertTrue(userModels.get(0).getAge().equals(0) );
         Assert.assertTrue(userModels.get(0).getGender().equals("man") );
 
+    }
+
+    @Test
+    public void c_read_limit_row() {
+        List<UserModel> userModelList =
+                IntStream.range(0, 2000).mapToObj(i ->
+                        UserModel.builder().name("tester" + i).age(i).gender("man").build()).collect(Collectors.toList());
+
+        ToWorkBook workBook = new ToWorkBook(ToWorkBookType.XSSF);
+        ToWorkSheet sheet = workBook.createSheet();
+        sheet.from(userModelList);
+
+        List<UserModel> limitList= sheet.map(UserModel.class, 1000);
+        Assert.assertTrue(limitList.size() == 1000);
     }
 
 }

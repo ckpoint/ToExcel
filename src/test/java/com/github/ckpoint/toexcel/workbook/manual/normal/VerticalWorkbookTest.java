@@ -3,7 +3,7 @@ package com.github.ckpoint.toexcel.workbook.manual.normal;
 import com.github.ckpoint.toexcel.core.ToWorkBook;
 import com.github.ckpoint.toexcel.core.ToWorkSheet;
 import com.github.ckpoint.toexcel.core.type.SheetDirection;
-import com.github.ckpoint.toexcel.core.type.WorkBookType;
+import com.github.ckpoint.toexcel.core.type.ToWorkBookType;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,7 +14,7 @@ public class VerticalWorkbookTest {
 
     @Test
     public void vertical_test_01() throws IOException {
-        ToWorkBook workBook = new ToWorkBook(WorkBookType.XSSF);
+        ToWorkBook workBook = new ToWorkBook(ToWorkBookType.XSSF);
         ToWorkSheet sheet = workBook.createSheet().updateDirection(SheetDirection.VERTICAL);
 
         sheet.createTitleCell(2, "name", "age");
