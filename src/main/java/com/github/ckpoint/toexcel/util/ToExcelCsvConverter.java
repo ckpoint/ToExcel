@@ -13,6 +13,10 @@ import java.util.stream.Collectors;
 public interface ToExcelCsvConverter {
 
     default String convertCsvStr() {
+        return convertCsvStr(",");
+    }
+
+    default String convertCsvStr(String separator) {
 
         List<Field> fields = getDeclaredFields(this.getClass());
 
@@ -21,7 +25,7 @@ public interface ToExcelCsvConverter {
                 .map(field -> new ToTitleKey(field, fieldCount.getAndIncrement(), new ExcelHeaderDefatulConverter()))
                 .sorted().collect(Collectors.toList());
 
-        return keys.stream().map(ToTitleKey::getField).map(this::getFieldValue).collect(Collectors.joining(","));
+        return keys.stream().map(ToTitleKey::getField).map(this::getFieldValue).collect(Collectors.joining(separator));
     }
 
     default String getFieldValue(Field fd) {
