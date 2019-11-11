@@ -14,7 +14,8 @@ import java.util.Arrays;
 /**
  * The enum Work book type.
  */
-public enum WorkBookType {
+public enum ToWorkBookType {
+
     /**
      * Hssf work book type.
      */
@@ -26,7 +27,7 @@ public enum WorkBookType {
 
     private final String ext;
 
-    WorkBookType(String ext) {
+    ToWorkBookType(String ext) {
         this.ext = ext;
     }
 
@@ -49,8 +50,8 @@ public enum WorkBookType {
      * @param ext the ext
      * @return the work book type
      */
-    public static WorkBookType findWorkBookType(@NonNull String ext) {
-        return Arrays.stream(WorkBookType.values()).filter(type -> ext.contains(type.ext)).findFirst()
+    public static ToWorkBookType findWorkBookType(@NonNull String ext) {
+        return Arrays.stream(ToWorkBookType.values()).filter(type -> ext.endsWith(type.ext)).findFirst()
                 .orElseThrow(() -> new NotFoundExtException(ext + " is not supported"));
     }
 

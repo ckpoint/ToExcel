@@ -3,7 +3,7 @@ package com.github.ckpoint.toexcel.workbook.manual;
 import com.github.ckpoint.toexcel.core.ToWorkBook;
 import com.github.ckpoint.toexcel.core.ToWorkSheet;
 import com.github.ckpoint.toexcel.core.type.SheetDirection;
-import com.github.ckpoint.toexcel.core.type.WorkBookType;
+import com.github.ckpoint.toexcel.core.type.ToWorkBookType;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,7 +14,7 @@ public class SkipCellTest {
 
     @Test
     public void skipCellTest_horizon_01() throws IOException {
-        ToWorkBook workBook = new ToWorkBook(WorkBookType.XSSF);
+        ToWorkBook workBook = new ToWorkBook(ToWorkBookType.XSSF);
         ToWorkSheet sheet = workBook.createSheet().updateDirection(SheetDirection.HORIZON);
 
         sheet.createTitleCell(2, "이름", "나이");
@@ -38,7 +38,7 @@ public class SkipCellTest {
 
     @Test
     public void skipCellTest_vertical_01() throws IOException {
-        ToWorkBook workBook = new ToWorkBook(WorkBookType.XSSF);
+        ToWorkBook workBook = new ToWorkBook(ToWorkBookType.XSSF);
         ToWorkSheet sheet = workBook.createSheet().updateDirection(SheetDirection.VERTICAL);
 
         sheet.createTitleCell(2, "이름", "나이");
