@@ -4,7 +4,7 @@ import com.github.ckpoint.toexcel.core.ToWorkBook;
 import com.github.ckpoint.toexcel.core.ToWorkSheet;
 import com.github.ckpoint.toexcel.core.style.ToWorkBookStyle;
 import com.github.ckpoint.toexcel.core.type.SheetDirection;
-import com.github.ckpoint.toexcel.core.type.WorkBookType;
+import com.github.ckpoint.toexcel.core.type.ToWorkBookType;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
@@ -18,7 +18,7 @@ public class StyleCustomTest {
 
     @Test
     public void test_01() throws IOException {
-        ToWorkBook workBook = new ToWorkBook(WorkBookType.XSSF);
+        ToWorkBook workBook = new ToWorkBook(ToWorkBookType.XSSF);
         ToWorkSheet sheet = workBook.createSheet().updateDirection(SheetDirection.VERTICAL);
 
         sheet.createTitleCell(2, "이름", "나이");

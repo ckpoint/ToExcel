@@ -76,6 +76,12 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
         this.cellPosition = new CellPosition(_sheet);
     }
 
+    /**
+     * Instantiates a new To work sheet.
+     *
+     * @param toWorkBook the to work book
+     * @param _sheet     the sheet
+     */
     public ToWorkSheet(@NonNull ToWorkBook toWorkBook, @NonNull Sheet _sheet) {
         this.workBook = toWorkBook;
         this._wb = _sheet.getWorkbook();
@@ -84,6 +90,12 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
         this.cellPosition = new CellPosition(_sheet);
     }
 
+    /**
+     * Update header excel converter to work sheet.
+     *
+     * @param excelHeaderConverter the excel header converter
+     * @return the to work sheet
+     */
     public ToWorkSheet updateHeaderExcelConverter(ExcelHeaderConverter excelHeaderConverter) {
         this.__excelHeaderConverter = excelHeaderConverter;
         return this;
@@ -164,11 +176,15 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
      * @return the list
      */
     public <T> List<T> map(Class<T> type) {
+        return map(type, null);
+    }
+
+    public <T> List<T> map(Class<T> type, Integer maxRowCnt) {
         Row titleRow = findTitleRow(type, this._sheet, this.__excelHeaderConverter);
 
         Map<Integer, String> excelTitleMap = new HashMap<>();
         for (int i = 0; i < titleRow.getLastCellNum(); i++) {
-            excelTitleMap.put(i, titleRow.getCell(i) != null ?titleRow.getCell(i).getStringCellValue() : "");
+            excelTitleMap.put(i, titleRow.getCell(i) != null ? titleRow.getCell(i).getStringCellValue() : "");
         }
 
         List<String> existTitles = IntStream.range(0, titleRow.getLastCellNum()).mapToObj(titleRow::getCell)
@@ -182,10 +198,19 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
                 keyset.add(new ToTitleKey(field, existTitles, __excelHeaderConverter));
             }
         }
-        List<Map<String, Object>> proxyMapList = IntStream.range(titleRow.getRowNum() + 1, this._sheet.getLastRowNum() + 1)
+
+        List<Map<String, Object>> proxyMapList = IntStream.range(titleRow.getRowNum() + 1, getLastDataRowNum(titleRow, maxRowCnt))
                 .mapToObj(this._sheet::getRow).map(row -> rowToMap(row, excelTitleMap, keyset)).collect(Collectors.toList());
 
         return proxyMapList.stream().map(map -> ModelMapperGenerator.enableFieldModelMapper().map(map, type)).collect(Collectors.toList());
+    }
+
+    private int getLastDataRowNum(Row titleRow, Integer maxRowCnt) {
+        if (maxRowCnt == null) {
+            return this._sheet.getLastRowNum() + 1;
+        }
+        int firstDataRow = titleRow.getRowNum() + 1;
+        return firstDataRow + maxRowCnt;
     }
 
     private List<Field> getDeclaredFields(Class type) {
@@ -252,10 +277,22 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
         }
     }
 
+    /**
+     * Gets cell.
+     *
+     * @param rowIdx  the row idx
+     * @param cellIdx the cell idx
+     * @return the cell
+     */
     public Cell getCell(@NonNull int rowIdx, @NonNull int cellIdx) {
         return this.cellPosition.getCell(rowIdx, cellIdx);
     }
 
+    /**
+     * Gets merged regions.
+     *
+     * @return the merged regions
+     */
     public List<CellRangeAddress> getMergedRegions() {
         if (this._sheet.getNumMergedRegions() < 1) {
             return new ArrayList<>();
@@ -264,6 +301,11 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
         return IntStream.range(0, this._sheet.getNumMergedRegions()).mapToObj(i -> this._sheet.getMergedRegion(i)).collect(Collectors.toList());
     }
 
+    /**
+     * Gets row count.
+     *
+     * @return the row count
+     */
     public int getRowCount() {
         if (this._sheet.getLastRowNum() == 0 && this._sheet.getRow(0) == null) {
             return 0;
@@ -313,7 +355,7 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
     }
 
     private Object getCellValue(Cell cell) {
-        if( cell == null){
+        if (cell == null) {
             return "";
         }
         switch (cell.getCellType()) {

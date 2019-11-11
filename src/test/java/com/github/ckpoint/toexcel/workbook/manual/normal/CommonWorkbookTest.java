@@ -2,7 +2,8 @@ package com.github.ckpoint.toexcel.workbook.manual.normal;
 
 import com.github.ckpoint.toexcel.core.ToWorkBook;
 import com.github.ckpoint.toexcel.core.ToWorkSheet;
-import com.github.ckpoint.toexcel.core.type.WorkBookType;
+import com.github.ckpoint.toexcel.core.type.ToWorkBookType;
+import com.github.ckpoint.toexcel.exception.NotFoundExtException;
 import com.github.ckpoint.toexcel.workbook.common.model.UserModel;
 import org.apache.poi.poifs.filesystem.OfficeXmlFileException;
 import org.junit.Assert;
@@ -29,7 +30,7 @@ public class CommonWorkbookTest {
                 IntStream.range(0, 100).mapToObj(i ->
                         UserModel.builder().name("tester" + i).age(i).gender("man").build()).collect(Collectors.toList());
 
-        ToWorkBook workBook = new ToWorkBook(WorkBookType.XSSF);
+        ToWorkBook workBook = new ToWorkBook(ToWorkBookType.XSSF);
         ToWorkSheet sheet = workBook.createSheet();
         sheet.from(userModelList);
         workBook.write("target/excel/map/read_test_1");
@@ -40,7 +41,7 @@ public class CommonWorkbookTest {
 
         File file = new File("target/excel/map/read_test_1.xlsx");
 
-        ToWorkBook workBook = new ToWorkBook(WorkBookType.XSSF, new FileInputStream(file));
+        ToWorkBook workBook = new ToWorkBook(ToWorkBookType.XSSF, new FileInputStream(file));
         ToWorkSheet sheet = workBook.getSheetAt(0);
 
         Assert.assertEquals(sheet.getRowCount(), 101);
@@ -51,7 +52,7 @@ public class CommonWorkbookTest {
 
         File file = new File("target/excel/map/read_test_1.xlsx");
 
-        ToWorkBook workBook = new ToWorkBook(WorkBookType.HSSF, new FileInputStream(file));
+        ToWorkBook workBook = new ToWorkBook(ToWorkBookType.HSSF, new FileInputStream(file));
 
         fail("No equals Type file");
     }
@@ -61,7 +62,7 @@ public class CommonWorkbookTest {
 
         File file = new File("no/existed/file.txt");
 
-        ToWorkBook workBook = new ToWorkBook(file);
+        ToWorkBook workBook = new ToWorkBook(ToWorkBookType.XSSF,file);
 
         fail("No existed file");
     }
@@ -71,7 +72,7 @@ public class CommonWorkbookTest {
 
         File file = new File("no/existed/");
 
-        ToWorkBook workBook = new ToWorkBook(file);
+        ToWorkBook workBook = new ToWorkBook(ToWorkBookType.XSSF, file);
 
         fail("No existed file");
     }

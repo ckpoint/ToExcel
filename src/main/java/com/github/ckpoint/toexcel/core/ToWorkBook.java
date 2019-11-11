@@ -1,7 +1,7 @@
 package com.github.ckpoint.toexcel.core;
 
 import com.github.ckpoint.toexcel.core.style.ToWorkBookStyle;
-import com.github.ckpoint.toexcel.core.type.WorkBookType;
+import com.github.ckpoint.toexcel.core.type.ToWorkBookType;
 import com.github.ckpoint.toexcel.exception.SheetNotFoundException;
 import lombok.Getter;
 import lombok.NonNull;
@@ -25,10 +25,9 @@ public class ToWorkBook {
     /**
      * The constant MAX_EXCEL_ROW.
      */
-    public static final Integer MAX_EXCEL_ROW = 65535;
     private final Workbook _wb;
     private final Map<ToWorkBookStyle, CellStyle> _styleMap = new HashMap<>();
-    private final WorkBookType type;
+    private final ToWorkBookType type;
 
     @Getter
     private List<ToWorkSheet> sheets = new ArrayList<>();
@@ -38,10 +37,11 @@ public class ToWorkBook {
      *
      * @param type the type
      */
-    public ToWorkBook(@NonNull WorkBookType type) {
+    public ToWorkBook(@NonNull ToWorkBookType type) {
         this.type = type;
         this._wb = type.createWorkBookInstance();
     }
+
 
     /**
      * Instantiates a new To work book.
@@ -50,11 +50,22 @@ public class ToWorkBook {
      * @throws IOException the io exception
      */
     public ToWorkBook(@NonNull File file) throws IOException {
+        this(ToWorkBookType.findWorkBookType(file.getName()), file);
+    }
+
+    /**
+     * Instantiates a new To work book.
+     *
+     * @param type the type
+     * @param file the file
+     * @throws IOException the io exception
+     */
+    public ToWorkBook(@NonNull ToWorkBookType type, @NonNull File file) throws IOException {
         if (!file.exists() || file.isDirectory()) {
             throw new FileNotFoundException();
         }
-        this.type = file.getName().endsWith("xls") ? WorkBookType.HSSF : WorkBookType.XSSF;
 
+        this.type =type;
         this._wb = type.createWorkBookInstance(file);
         this.__initSheet();
     }
@@ -66,7 +77,7 @@ public class ToWorkBook {
      * @param fis  the fis
      * @throws IOException the io exception
      */
-    public ToWorkBook(@NonNull WorkBookType type, @NonNull FileInputStream fis) throws IOException {
+    public ToWorkBook(@NonNull ToWorkBookType type, @NonNull FileInputStream fis) throws IOException {
         this.type = type;
         this._wb = type.createWorkBookInstance(fis);
         this.__initSheet();

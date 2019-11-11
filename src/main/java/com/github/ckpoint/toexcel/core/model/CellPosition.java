@@ -155,6 +155,13 @@ public class CellPosition {
         return mergeCellList;
     }
 
+    /**
+     * Gets cell.
+     *
+     * @param rowIdx  the row idx
+     * @param cellIdx the cell idx
+     * @return the cell
+     */
     public Cell getCell(@NonNull int rowIdx, @NonNull int cellIdx) {
         Row row = this._sheet.getRow(rowIdx);
         if (row == null) {
