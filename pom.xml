@@ -6,7 +6,7 @@
 
     <groupId>com.github.ckpoint</groupId>
     <artifactId>toexcel</artifactId>
-    <version>0.9.4</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
     <name>TOExcel</name>
     <description>This is a library that makes Excel easier to use in Java. </description>
@@ -23,9 +23,9 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/ckpoint/SimpleSpringSecurity</url>
-        <connection>scm:git:git@github.com:ckpoint/SimpleSpringSecurity.git</connection>
-        <developerConnection>scm:git:git@github.com:ckpoint/SimpleSpringSecurity.git</developerConnection>
+        <url>https://github.com/ckpoint/toexcel</url>
+        <connection>scm:git:git@github.com:ckpoint/ToExcel.git</connection>
+        <developerConnection>scm:git:git@github.com:ckpoint/ToExcel.git</developerConnection>
     </scm>
 
     <distributionManagement>

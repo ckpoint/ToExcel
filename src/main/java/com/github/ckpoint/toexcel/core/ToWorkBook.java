@@ -27,6 +27,8 @@ public class ToWorkBook {
      */
     private final Workbook _wb;
     private final Map<ToWorkBookStyle, CellStyle> _styleMap = new HashMap<>();
+
+    @Getter
     private final ToWorkBookType type;
 
     @Getter
@@ -120,6 +122,11 @@ public class ToWorkBook {
 
         FileOutputStream fileOutputStream = new FileOutputStream(fp);
         this._wb.write(fileOutputStream);
+    }
+
+    public String getFileName(String name){
+       if( this.type == null) { return name; }
+       return type.translateFileName(name);
     }
 
     /**
