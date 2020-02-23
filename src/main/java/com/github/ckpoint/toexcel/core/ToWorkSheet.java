@@ -14,11 +14,13 @@ import com.github.ckpoint.toexcel.util.ModelMapperGenerator;
 import com.github.ckpoint.toexcel.util.TitleRowHelper;
 import lombok.Getter;
 import lombok.NonNull;
+import org.apache.commons.codec.binary.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.util.StringUtil;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -202,7 +204,21 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
         List<Map<String, Object>> proxyMapList = IntStream.range(titleRow.getRowNum() + 1, getLastDataRowNum(titleRow, maxRowCnt))
                 .mapToObj(this._sheet::getRow).map(row -> rowToMap(row, excelTitleMap, keyset)).collect(Collectors.toList());
 
-        return proxyMapList.stream().map(map -> ModelMapperGenerator.enableFieldModelMapper().map(map, type)).collect(Collectors.toList());
+        return proxyMapList.stream().filter(map -> !isEmptyValueMap(map))
+                .map(map -> ModelMapperGenerator.enableFieldModelMapper().map(map, type)).collect(Collectors.toList());
+    }
+    private boolean isEmptyValueMap(Map<String, Object> map){
+        if( map == null || map.isEmpty()){
+            return true;
+        }
+        for (Map.Entry<String, Object> entry: map.entrySet()) {
+            if( entry.getValue() == null){ continue; }
+            if(!String.valueOf(entry.getValue()).trim().isEmpty()){
+                return false;
+            }
+
+        }
+        return true;
     }
 
     private int getLastDataRowNum(Row titleRow, Integer maxRowCnt) {
