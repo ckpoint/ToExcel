@@ -33,7 +33,7 @@ public class ToTitleKey implements ExcelHeaderHelper, Comparable<ToTitleKey> {
         this.key = field.getName();
         this.header = field.getAnnotation(ExcelHeader.class);
         this.viewName = excelHeaderConverter.headerKeyConverter(this.header);
-        this.priority = fieldIdx + (priority * 1000);
+        this.priority = fieldIdx + (header.priority() * 1000);
     }
 
     /**
