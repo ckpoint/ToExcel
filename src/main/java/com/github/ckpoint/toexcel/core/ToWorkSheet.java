@@ -269,12 +269,25 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
         this.cellPosition.merge(width, height);
     }
 
+    public void writeTitle(String title, int width){
+        createCell( title);
+        merge(width, 1);
+        newLine();
+    }
     /**
      * From.
      *
      * @param list the list
      */
-    public void from(List list) {
+    public void from( List list) {
+        from(null, list);
+    }
+    /**
+     * From.
+     *
+     * @param list the list
+     */
+    public void from(String title, List list) {
         if (list == null || list.isEmpty()) {
             throw new SheetNotFoundException("Not found sheet list");
         }
@@ -287,6 +300,9 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
         List<ToTitleKey> keys = fields.stream().filter(field -> field.getAnnotation(ExcelHeader.class) != null)
                 .map(field -> new ToTitleKey(field, fieldCount.getAndIncrement(), __excelHeaderConverter))
                 .sorted().collect(Collectors.toList());
+        if( title != null){
+            writeTitle(title, keys.size());
+        }
         keys.forEach(key -> this.createTitleCell(1, key.getViewName()));
         for (Object o : list) {
             writeObject(o, keys);
