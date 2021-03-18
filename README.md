@@ -167,3 +167,7 @@ public class UserModel {
 
    workBook.writeFile("target/excel/manual/merge/merge_horizon_02");
 ```
+
+
+Thank you to Dami Im, who gave a lot of inspiration and help to the development of the source.
+
