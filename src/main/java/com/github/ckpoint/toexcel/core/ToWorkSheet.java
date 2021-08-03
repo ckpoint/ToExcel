@@ -285,6 +285,7 @@ public class ToWorkSheet implements ExcelHeaderHelper, TitleRowHelper {
     /**
      * From.
      *
+     * @param title the title
      * @param list the list
      */
     public void from(String title, List list) {

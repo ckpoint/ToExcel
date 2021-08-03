@@ -14,7 +14,7 @@ public class DoubleToDateConverter extends AbstractConverter<Double, Date> imple
 
     @Override
     protected Date convert(Double numberDate) {
-        GregorianCalendar geGregorianCalendar = new GregorianCalendar(1900, Calendar.JANUARY, 1);
+        GregorianCalendar geGregorianCalendar = new GregorianCalendar(1900, Calendar.JANUARY, 0);
         geGregorianCalendar.add(Calendar.DATE, numberDate.intValue() - 1);
         return geGregorianCalendar.getTime();
     }
