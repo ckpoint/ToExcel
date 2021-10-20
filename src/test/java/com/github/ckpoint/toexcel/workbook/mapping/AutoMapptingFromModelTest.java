@@ -29,7 +29,7 @@ public class AutoMapptingFromModelTest {
         Assert.assertTrue(sheet.getCell(0, 2).getStringCellValue().equalsIgnoreCase("gender"));
 
         Assert.assertTrue(sheet.getCell(1, 0).getStringCellValue().equalsIgnoreCase("tester0"));
-        Assert.assertTrue(sheet.getCell(1, 1).getStringCellValue().equalsIgnoreCase("0"));
+        Assert.assertTrue(sheet.getCell(1, 1).getNumericCellValue() == 0 );
         Assert.assertTrue(sheet.getCell(1, 2).getStringCellValue().equalsIgnoreCase("man"));
 
         Assert.assertTrue(sheet.getRowCount() == 101);

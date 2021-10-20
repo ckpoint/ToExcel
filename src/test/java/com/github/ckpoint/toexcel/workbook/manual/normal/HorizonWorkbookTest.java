@@ -26,7 +26,7 @@ public class HorizonWorkbookTest {
         Assert.assertTrue(sheet.getCell(0, 1).getStringCellValue().equals("age"));
 
         Assert.assertTrue(sheet.getCell(1, 0).getStringCellValue().equals("hsim0"));
-        Assert.assertTrue(sheet.getCell(1, 1).getStringCellValue().equals("1"));
+        Assert.assertTrue(sheet.getCell(1, 1).getNumericCellValue() == 1);
 
         workBook.write("target/excel/manual/normal/horizon_test_01");
 

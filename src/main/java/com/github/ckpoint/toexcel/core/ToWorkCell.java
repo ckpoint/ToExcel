@@ -97,6 +97,10 @@ public class ToWorkCell implements ExcelHeaderHelper {
     private ToWorkCell updateValue(Object value) {
         if (value instanceof Double) {
             this._cell.setCellValue((double) value);
+        } else if ( value instanceof Integer ){
+            this._cell.setCellValue((int) value);
+        } else if ( value instanceof Long ){
+            this._cell.setCellValue((long) value);
         } else if (value instanceof Boolean) {
             this._cell.setCellValue((Boolean) value);
         } else if (value instanceof RichTextString) {

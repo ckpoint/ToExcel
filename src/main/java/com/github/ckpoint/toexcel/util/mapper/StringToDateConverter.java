@@ -31,6 +31,10 @@ public class StringToDateConverter extends AbstractConverter<String, Date> imple
             if (convertDate != null) {
                 return convertDate;
             }
+            convertDate = convert(s.replaceAll(".", ""), format);
+            if (convertDate != null) {
+                return convertDate;
+            }
         }
         return null;
     }

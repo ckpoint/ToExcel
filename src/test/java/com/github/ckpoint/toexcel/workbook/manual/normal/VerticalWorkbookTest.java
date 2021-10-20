@@ -26,7 +26,7 @@ public class VerticalWorkbookTest {
         Assert.assertTrue(sheet.getCell(1, 0).getStringCellValue().equals("age"));
 
         Assert.assertTrue(sheet.getCell(0, 1).getStringCellValue().equals("hsim0"));
-        Assert.assertTrue(sheet.getCell(1, 1).getStringCellValue().equals("1"));
+        Assert.assertTrue(sheet.getCell(1, 1).getNumericCellValue() == 1 ) ;
 
         workBook.write("target/excel/manual/normal/vertical_test_01");
 

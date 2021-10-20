@@ -13,13 +13,13 @@ To-Excel depends on  [Apache POI](https://poi.apache.org), [Model Mapper](https:
 <dependency>
   <groupId>com.github.ckpoint</groupId>
   <artifactId>toexcel</artifactId>
-  <version>1.0.6</version>
+  <version>1.0.8</version>
 </dependency>
 
 ```
 #### 2. GRADLE
 ```gradle
-  compile group: 'com.github.ckpoint', name: 'toexcel', version: '1.0.6'
+  compile group: 'com.github.ckpoint', name: 'toexcel', version: '1.0.8'
 ```
 
 
