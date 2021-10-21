@@ -169,5 +169,3 @@ public class UserModel {
 ```
 
 
-Thank you to Dami Im, who gave a lot of inspiration and help to the development of the source.
-
